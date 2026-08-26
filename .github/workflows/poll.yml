@@ -1,0 +1,129 @@
+name: Poll CeltsAreHere
+
+on:
+  schedule:
+    # Every 15 minutes. GitHub queues cron jobs, so expect a few minutes of
+    # drift at busy times - it is a floor, not a guarantee.
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "Render one article by URL (leave blank for a normal poll)"
+        required: false
+      headline:
+        description: "Override the headline text"
+        required: false
+      bootstrap:
+        description: "Tick this on the very first run only"
+        type: boolean
+        default: false
+
+concurrency:
+  group: cah-poll
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  poll:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    # Secrets are lifted to env here because GitHub does not allow the
+    # `secrets` context inside a step-level `if:`.
+    env:
+      RCLONE_CONF: ${{ secrets.RCLONE_CONF }}
+      RCLONE_REMOTE: ${{ secrets.RCLONE_REMOTE }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      # Only runs if you have chosen to also sync to Drive/Dropbox.
+      - name: Set up rclone
+        if: ${{ env.RCLONE_CONF != '' }}
+        run: |
+          curl -fsSL https://rclone.org/install.sh | sudo bash
+          mkdir -p ~/.config/rclone
+          printf '%s' "$RCLONE_CONF" > ~/.config/rclone/rclone.conf
+
+      - name: Poll and render
+        env:
+          CAH_VARIANTS: facebook,story
+          IN_URL: ${{ inputs.url }}
+          IN_HEADLINE: ${{ inputs.headline }}
+          IN_BOOTSTRAP: ${{ inputs.bootstrap }}
+        run: |
+          if [ "$IN_BOOTSTRAP" = "true" ]; then
+            python src/poll.py --bootstrap
+          elif [ -n "$IN_URL" ] && [ -n "$IN_HEADLINE" ]; then
+            python src/poll.py --url "$IN_URL" --headline "$IN_HEADLINE"
+          elif [ -n "$IN_URL" ]; then
+            python src/poll.py --url "$IN_URL"
+          else
+            python src/poll.py
+          fi
+
+      - name: Publish cards to the writers' page
+        run: |
+          shopt -s nullglob
+          made=(out/*.jpg)
+          if [ ${#made[@]} -eq 0 ]; then
+            echo "No new cards this run - page left as it was."
+            exit 0
+          fi
+
+          repo="https://x-access-token:${{ github.token }}@github.com/${GITHUB_REPOSITORY}.git"
+
+          # Fetch the existing page, or start one if this is the first time.
+          if ! git clone --depth 1 --branch gh-pages "$repo" pages 2>/dev/null; then
+            echo "Creating the gh-pages branch for the first time."
+            git clone --depth 1 "$repo" pages
+            git -C pages checkout --orphan gh-pages
+            git -C pages rm -rf . >/dev/null 2>&1 || true
+          fi
+
+          mkdir -p pages/cards
+          cp out/*.jpg pages/cards/ 2>/dev/null || true
+          cp out/*.txt pages/cards/ 2>/dev/null || true
+
+          python src/gallery.py pages
+
+          # Squashed to a single commit every time, so the repository never
+          # grows without limit however long this runs for.
+          cd pages
+          git checkout --orphan latest
+          git add -A
+          git -c user.name="celtsarehere-bot" \
+              -c user.email="bot@users.noreply.github.com" \
+              commit -q -m "Cards updated $(date -u +%FT%TZ)"
+          git push -f "$repo" latest:gh-pages
+          echo "Writers' page updated."
+
+      - name: Remember which articles are done
+        run: |
+          git config user.name  "celtsarehere-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add state/seen.json
+          if ! git diff --staged --quiet; then
+            git commit -m "state: $(date -u +%FT%TZ)"
+            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" || true
+            git push
+          fi
+
+      - name: Keep a 30-day backup of this run's cards
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cards-${{ github.run_id }}
+          path: out/*
+          if-no-files-found: ignore
+          retention-days: 30
