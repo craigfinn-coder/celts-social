@@ -1,0 +1,6 @@
+out/*.jpg
+out/*.txt
+out/*.png
+__pycache__/
+*.pyc
+.DS_Store
