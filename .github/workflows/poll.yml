@@ -1,15 +1,11 @@
 name: Poll CeltsAreHere
 
 on:
-  # The real trigger: WordPress pings this the moment a post is published.
-  # GitHub's scheduler proved unreliable on this repo - it never fired once
-  # in 15 hours - so the cron below is only a safety net, not the mechanism.
+  # WordPress pings this the moment a post is published.
+  # There is deliberately NO schedule: polling the site every 15 minutes got
+  # GitHub's runners blocked by the site's bot protection (403). Push, don't poll.
   repository_dispatch:
     types: [new-post]
-
-  schedule:
-    # Backstop only. If GitHub ever does honour it, it just finds nothing new.
-    - cron: "*/15 * * * *"
 
   workflow_dispatch:
     inputs:
