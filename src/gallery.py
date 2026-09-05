@@ -10,9 +10,12 @@ from __future__ import annotations
 
 import html
 import os
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+
+ISO_RE = re.compile(r"^\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}")
 
 KEEP = int(os.environ.get("CAH_GALLERY_KEEP", "240"))   # cards kept on the site
 
@@ -104,8 +107,9 @@ def caption_for(cards: Path, key: str, stem_fallback: str):
         parts = [p.strip() for p in f.read_text().split("\n") if p.strip()]
         if parts:
             link = parts[-1] if parts[-1].startswith("http") else ""
-            return parts[0], link
-    return headline_from(stem_fallback), ""
+            when = next((p for p in parts[1:] if ISO_RE.match(p)), "")
+            return parts[0], link, when
+    return headline_from(stem_fallback), "", ""
 
 
 def build(pages_dir: Path) -> None:
@@ -124,7 +128,14 @@ def build(pages_dir: Path) -> None:
             key, variant = stem, "facebook"
         groups.setdefault(key, {})[variant] = p
 
-    ordered = sorted(groups.items(), key=lambda kv: kv[0], reverse=True)
+    # Newest first. Same-day cards used to sort alphabetically by slug, which
+    # put the day's stories in the wrong order; use the publish time when the
+    # caption file carries it, and fall back to the filename key.
+    def sort_key(kv):
+        _, when = kv[0], caption_for(cards, kv[0], kv[0])[2]
+        return (when or kv[0][:10], kv[0])
+
+    ordered = sorted(groups.items(), key=sort_key, reverse=True)
 
     # Prune: keep the newest KEEP articles, delete the rest off the site.
     for key, variants in ordered[KEEP:]:
@@ -139,7 +150,7 @@ def build(pages_dir: Path) -> None:
         fb = variants.get("facebook") or next(iter(variants.values()))
         story = variants.get("story")
         when = key.split("_", 1)[0]
-        raw_headline, link = caption_for(cards, key, key)
+        raw_headline, link, _when = caption_for(cards, key, key)
         headline = html.escape(raw_headline)
         buttons = ""
         if story:
