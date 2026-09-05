@@ -21,6 +21,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -44,7 +45,16 @@ PER_PAGE = int(os.environ.get("CAH_PER_PAGE", "15"))
 MAX_PER_RUN = int(os.environ.get("CAH_MAX_PER_RUN", "6"))
 KEEP_SEEN = 400
 
-UA = {"User-Agent": "CeltsAreHere-SocialBot/1.0 (+https://celtsarehere.com)"}
+# Identify honestly, but in the conventional shape security plugins expect.
+# An anonymous bot signature is what got this blocked in the first place;
+# this string is also what you would allowlist if it ever happens again.
+UA = {
+    "User-Agent": (
+        "Mozilla/5.0 (compatible; CeltsAreHereCards/1.0; "
+        "+https://celtsarehere.com) social-card-generator"
+    ),
+    "Accept": "application/json, text/html;q=0.9, */*;q=0.8",
+}
 
 
 # --------------------------------------------------------------------------
@@ -137,7 +147,7 @@ def rclone_upload(paths: list[Path]) -> None:
     """Copy finished cards to the shared cloud folder, if one is configured."""
     remote = os.environ.get("RCLONE_REMOTE")
     if not remote:
-        print("· RCLONE_REMOTE unset - leaving cards in out/ only")
+        print("\u00b7 RCLONE_REMOTE unset - leaving cards in out/ only")
         return
     day = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     dest = f"{remote.rstrip('/')}/{day}"
@@ -181,8 +191,13 @@ def process(post: dict, headline_override: str | None = None) -> list[Path]:
         written.append(out)
         print(f"  wrote {out.name} ({card.size[0]}x{card.size[1]})")
 
+    # Caption file: headline as written (not shouted, not title-cased - that
+    # was turning "McGowan's" into "Mcgowan'S"), then the publish time so the
+    # gallery can order same-day cards properly, then the link.
+    import html as _html
+    nice = re.sub(r"\s+", " ", _html.unescape(title or "")).strip()
     caption = OUT_DIR / f"{date}_{slug}.txt"
-    caption.write_text(f"{clean_headline(title).title()}\n\n{link}\n")
+    caption.write_text(f"{nice}\n{post.get('date_gmt', '')}\n{link}\n")
     written.append(caption)
     return written
 
