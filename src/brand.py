@@ -49,12 +49,15 @@ LAYOUTS = {
         "scrim": (560, 1250),
     },
     "story": {
+        # Instagram reserves roughly the top 250px and bottom 300px for its own
+        # UI - the link sticker and the bin land there. Everything sits high
+        # enough to leave ~418px clear underneath the logo.
         "size": (1080, 1920),
         "tag_xy": (0, 300),
-        "headline_cap_bottom": 1556,
-        "headline_cap_top_limit": 1255,
+        "headline_cap_bottom": 1340,
+        "headline_cap_top_limit": 1040,
         "headline_max_width": 890,
-        "footer_xy": (300, 1618),
-        "scrim": (900, 1640),
+        "footer_xy": (300, 1402),
+        "scrim": (760, 1430),
     },
 }
