@@ -110,7 +110,7 @@ jobs:
           git push -f "$repo" latest:gh-pages
           echo "Writers' page updated."
 
-            - name: Remember which articles are done
+      - name: Remember which articles are done
         run: |
           git config user.name  "celtsarehere-bot"
           git config user.email "bot@users.noreply.github.com"
