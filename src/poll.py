@@ -100,10 +100,28 @@ def fetch_posts(per_page: int = PER_PAGE, slug: str | None = None) -> list[dict]
         "_embed": "wp:featuredmedia",
         "orderby": "date",
         "order": "desc",
+        # The site's CDN caches /wp-json responses for five minutes, keyed on
+        # the full URL. A unique value per request forces a fresh pull so a
+        # run triggered seconds after publishing actually sees the new post.
+        "_cb": f"{int(time.time() * 1000)}{os.getpid()}",
     }
     if slug:
         params["slug"] = slug
     return _get(API, params=params).json()
+
+
+def fetch_hinted(urls: list[str]) -> list[dict]:
+    """Fetch specific articles by URL (the ones WordPress told us about)."""
+    found: list[dict] = []
+    for url in urls:
+        slug = [s for s in url.rstrip("/").split("/") if s][-1] if url else ""
+        if not slug:
+            continue
+        try:
+            found += [p for p in fetch_posts(slug=slug) if p.get("id")]
+        except Exception as exc:            # noqa: BLE001
+            print(f"  ! hinted lookup failed for {url}: {exc}", file=sys.stderr)
+    return found
 
 
 def og_image(article_url: str) -> str | None:
@@ -209,6 +227,12 @@ def main() -> int:
     ap.add_argument("--url", help="render one article by URL, ignoring state")
     ap.add_argument("--headline", help="override the headline text")
     ap.add_argument("--no-upload", action="store_true")
+    ap.add_argument("--expect-new", action="store_true",
+                    help="run was triggered by a publish ping: if nothing new "
+                         "shows up yet, keep re-checking for a couple of minutes")
+    ap.add_argument("--hint", action="append", default=[],
+                    help="article URL the ping said was just published "
+                         "(may be given more than once)")
     args = ap.parse_args()
 
     # ---- manual single-article mode
@@ -226,7 +250,19 @@ def main() -> int:
 
     state = load_state()
     seen = set(state["seen"])
-    posts = fetch_posts()
+
+    def look() -> tuple[list[dict], list[dict]]:
+        posts = fetch_posts()
+        hinted = [p for p in fetch_hinted([u for u in args.hint if u])
+                  if p.get("status", "publish") == "publish"]
+        by_id = {p["id"]: p for p in posts}
+        for p in hinted:
+            by_id.setdefault(p["id"], p)
+        fresh = [p for p in by_id.values() if p["id"] not in seen]
+        fresh.sort(key=lambda p: p.get("date_gmt") or "")
+        return posts, fresh
+
+    posts, fresh = look()
     print(f"Feed returned {len(posts)} posts, {len(seen)} already seen")
 
     if args.bootstrap or (not seen and not os.environ.get("CAH_BACKFILL")):
@@ -236,8 +272,16 @@ def main() -> int:
               "Future runs will only pick up genuinely new articles.")
         return 0
 
-    fresh = [p for p in posts if p["id"] not in seen]
-    fresh.sort(key=lambda p: p.get("date_gmt") or "")
+    # A publish ping can arrive before the new post is visible through the
+    # API (caching, replication, a slow save). Rather than give up and wait
+    # for the next ping, look again a few times.
+    tries = 0
+    while not fresh and args.expect_new and tries < 6:
+        tries += 1
+        print(f"  ping said there's a new post but the API hasn't shown it yet "
+              f"- re-checking in 20s ({tries}/6)")
+        time.sleep(20)
+        posts, fresh = look()
 
     if not fresh:
         print("No new articles.")
