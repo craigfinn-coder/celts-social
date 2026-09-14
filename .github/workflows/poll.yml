@@ -63,6 +63,17 @@ jobs:
           IN_URL: ${{ inputs.url }}
           IN_HEADLINE: ${{ inputs.headline }}
           IN_BOOTSTRAP: ${{ inputs.bootstrap }}
+          # Set when WordPress pinged us. If the ping carries the article URL
+          # (under any of these keys) that article is looked up directly
+          # instead of waiting for it to show up in the cached list.
+          PINGED: ${{ github.event_name == 'repository_dispatch' }}
+          PING_PAYLOAD: ${{ toJSON(github.event.client_payload) }}
+          PING_URL: >-
+            ${{ github.event.client_payload.url
+             || github.event.client_payload.link
+             || github.event.client_payload.permalink
+             || github.event.client_payload.post_url
+             || github.event.client_payload.post_permalink }}
         run: |
           if [ "$IN_BOOTSTRAP" = "true" ]; then
             python src/poll.py --bootstrap
@@ -70,6 +81,11 @@ jobs:
             python src/poll.py --url "$IN_URL" --headline "$IN_HEADLINE"
           elif [ -n "$IN_URL" ]; then
             python src/poll.py --url "$IN_URL"
+          elif [ "$PINGED" = "true" ]; then
+            echo "Ping payload: $PING_PAYLOAD"
+            extra=()
+            [ -n "$PING_URL" ] && extra=(--hint "$PING_URL")
+            python src/poll.py --expect-new "${extra[@]}"
           else
             python src/poll.py
           fi
