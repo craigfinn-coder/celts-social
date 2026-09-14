@@ -2,8 +2,9 @@
 
 Every time a new article goes live on celtsarehere.com, this makes the Facebook
 graphic for it — featured image, headline, house template — and puts it on a
-web page your writers can grab it from. It checks every 15 minutes, on its own,
-forever. Nothing runs on your Mac.
+web page your writers can grab it from. WordPress pings it the moment a post is
+published, so the card is usually on the page within a minute. Nothing runs on
+your Mac.
 
 Two sizes per article: **1080×1380** for the feed and **1080×1920** for stories.
 
@@ -16,8 +17,8 @@ install, no command line.
 
 **1. Make the repository.**
 On github.com click **+** (top right) → **New repository**. Name it
-`celts-social`. Choose **Public** (this matters — it's what makes the schedule
-free). Click **Create repository**.
+`celts-social`. Choose **Public** (this matters — it's what makes the Actions
+minutes free). Click **Create repository**.
 
 **2. Put these files in it.**
 On the empty repo page click **uploading an existing file**. Drag the whole
@@ -38,8 +39,22 @@ select **Read and write permissions** → **Save**.
 **bootstrap** → **Run workflow**.
 
 That first run marks everything currently on the site as "already done", so you
-don't get fifteen cards at once. From then on it runs itself every 15 minutes
-and only picks up genuinely new articles.
+don't get fifteen cards at once. From then on it only picks up genuinely new
+articles.
+
+**6. Tell WordPress to ping it.**
+There is deliberately no timer: polling the site every 15 minutes got GitHub's
+runners blocked by the site's bot protection. Instead WordPress sends a
+`repository_dispatch` event (type `new-post`) to this repo whenever a post is
+published, and that starts a run. On the WordPress side that is a small snippet
+on the `publish_post` hook that POSTs to
+`https://api.github.com/repos/YOURNAME/celts-social/dispatches` with a
+fine-grained token that has *Contents: read and write* on this repo.
+
+Include the article's URL in the ping as `client_payload.url` (or `link` /
+`permalink` / `post_url` / `post_permalink`). It isn't required, but with it the
+run fetches that exact article straight away instead of waiting for it to show
+up in the site's list.
 
 Your writers' page is at:
 
@@ -60,7 +75,16 @@ page in a minute or two.
 
 **Check it's still running.**
 The Actions tab lists every run. Green tick means fine. It's also stamped at the
-top of your writers' page.
+top of your writers' page. A run labelled *new-post* was started by a WordPress
+ping; its log has a "Ping payload" line showing exactly what WordPress sent.
+
+**A card didn't appear after publishing.**
+First check the Actions tab for a *new-post* run at the time you published. If
+there isn't one, the ping didn't arrive — check the WordPress snippet and the
+token. If there is one and it says "No new articles", run the workflow by hand
+with the article URL in *url*. (The site's CDN caches the article list for five
+minutes; every request now carries a cache-buster and pinged runs re-check for a
+couple of minutes, so this should be rare.)
 
 **Heads are getting cut off in the crop.**
 Open `src/brand.py` on GitHub, click the pencil, change `FOCAL_Y = 0.36` to
@@ -80,7 +104,7 @@ Actions tab → Poll CeltsAreHere → the `...` menu → Disable workflow.
 | `src/poll.py` | Checks the site, decides what's new. |
 | `src/gallery.py` | Builds the writers' page. |
 | `state/seen.json` | Which articles are already done. Don't edit. |
-| `.github/workflows/poll.yml` | The 15-minute schedule. |
+| `.github/workflows/poll.yml` | The job that runs when WordPress pings, or when you press Run workflow. |
 
 ---
 
@@ -91,8 +115,9 @@ indexed by search engines and nobody will guess the URL. The graphics are
 going on Facebook anyway. If that's not acceptable, the repo can be made
 private and the cards delivered to Google Drive instead — see below.
 
-**Timing is a floor, not a promise.** GitHub queues scheduled jobs, so a run
-can land a few minutes late when their servers are busy.
+**Timing.** A ping starts a run within seconds, but GitHub queues jobs, so a
+card can take a few minutes when their servers are busy. Runs never overlap: if
+two posts go out together, the second waits for the first.
 
 **The font.** Barlow Condensed ExtraBold was matched to your reference
 graphics by measurement — within 3px on every line — not taken from your
