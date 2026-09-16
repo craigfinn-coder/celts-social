@@ -27,6 +27,7 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.parse import unquote, urlsplit
 
 import requests
 
@@ -44,6 +45,13 @@ VARIANTS = [v.strip() for v in
 PER_PAGE = int(os.environ.get("CAH_PER_PAGE", "15"))
 MAX_PER_RUN = int(os.environ.get("CAH_MAX_PER_RUN", "6"))
 KEEP_SEEN = 400
+PUBLISH_RECHECKS = 12
+PUBLISH_RECHECK_SECONDS = 30
+
+
+def article_slug(url: str) -> str:
+    """Compare article URLs independently of query strings and trailing slashes."""
+    return unquote(urlsplit(url).path.rstrip("/").rsplit("/", 1)[-1])
 
 # Identify honestly, but in the conventional shape security plugins expect.
 # An anonymous bot signature is what got this blocked in the first place;
@@ -114,7 +122,7 @@ def fetch_hinted(urls: list[str]) -> list[dict]:
     """Fetch specific articles by URL (the ones WordPress told us about)."""
     found: list[dict] = []
     for url in urls:
-        slug = [s for s in url.rstrip("/").split("/") if s][-1] if url else ""
+        slug = article_slug(url) if url else ""
         if not slug:
             continue
         try:
@@ -229,7 +237,7 @@ def main() -> int:
     ap.add_argument("--no-upload", action="store_true")
     ap.add_argument("--expect-new", action="store_true",
                     help="run was triggered by a publish ping: if nothing new "
-                         "shows up yet, keep re-checking for a couple of minutes")
+                         "shows up yet, re-check for up to six minutes")
     ap.add_argument("--hint", action="append", default=[],
                     help="article URL the ping said was just published "
                          "(may be given more than once)")
@@ -251,14 +259,19 @@ def main() -> int:
     state = load_state()
     seen = set(state["seen"])
 
+    hints = [u for u in args.hint if u]
+    expected_slugs = {article_slug(u) for u in hints if article_slug(u)}
+    observed: dict[int, dict] = {}
+
     def look() -> tuple[list[dict], list[dict]]:
         posts = fetch_posts()
-        hinted = [p for p in fetch_hinted([u for u in args.hint if u])
+        hinted = [p for p in fetch_hinted(hints)
                   if p.get("status", "publish") == "publish"]
-        by_id = {p["id"]: p for p in posts}
-        for p in hinted:
-            by_id.setdefault(p["id"], p)
-        fresh = [p for p in by_id.values() if p["id"] not in seen]
+        # Keep discoveries across retries; a stale response must not erase one.
+        for p in posts + hinted:
+            if p.get("status", "publish") == "publish":
+                observed[p["id"]] = p
+        fresh = [p for p in observed.values() if p["id"] not in seen]
         fresh.sort(key=lambda p: p.get("date_gmt") or "")
         return posts, fresh
 
@@ -272,16 +285,28 @@ def main() -> int:
               "Future runs will only pick up genuinely new articles.")
         return 0
 
-    # A publish ping can arrive before the new post is visible through the
-    # API (caching, replication, a slow save). Rather than give up and wait
-    # for the next ping, look again a few times.
+    # An older unseen post does NOT satisfy a ping for a different article.
+    # That used to end retries early and keep the gallery exactly one behind.
+    def waiting_for_publish() -> bool:
+        if expected_slugs:
+            available = {p.get("slug") or article_slug(p.get("link", ""))
+                         for p in observed.values()}
+            return not expected_slugs.issubset(available)
+        return not fresh
+
     tries = 0
-    while not fresh and args.expect_new and tries < 6:
+    while args.expect_new and waiting_for_publish() and tries < PUBLISH_RECHECKS:
         tries += 1
-        print(f"  ping said there's a new post but the API hasn't shown it yet "
-              f"- re-checking in 20s ({tries}/6)")
-        time.sleep(20)
+        print(f"  waiting for the published article "
+              f"- re-checking in {PUBLISH_RECHECK_SECONDS}s "
+              f"({tries}/{PUBLISH_RECHECKS})", flush=True)
+        time.sleep(PUBLISH_RECHECK_SECONDS)
         posts, fresh = look()
+
+    if args.expect_new and waiting_for_publish():
+        print("::warning::The published article is still unavailable after "
+              "six minutes. Check the WordPress API/publish hook; "
+              "this ping has not been fulfilled.", file=sys.stderr)
 
     if not fresh:
         print("No new articles.")
@@ -290,6 +315,9 @@ def main() -> int:
 
     if len(fresh) > MAX_PER_RUN:
         print(f"! {len(fresh)} new posts, capping this run at {MAX_PER_RUN}")
+        # Make room for the ping's exact article even when clearing a backlog.
+        fresh.sort(key=lambda p: (p.get("slug") in expected_slugs,
+                                 p.get("date_gmt") or ""))
         fresh = fresh[-MAX_PER_RUN:]
 
     produced: list[Path] = []
@@ -297,8 +325,10 @@ def main() -> int:
         title = (post.get("title") or {}).get("rendered", "")
         print(f"\nNEW #{post['id']}: {clean_headline(title)}")
         try:
-            produced += process(post)
-            state["seen"].append(post["id"])
+            files = process(post)
+            produced += files
+            if files:
+                state["seen"].append(post["id"])
         except Exception as exc:            # noqa: BLE001
             # Leave it unseen so the next run retries it.
             print(f"  ! failed: {exc}", file=sys.stderr)
