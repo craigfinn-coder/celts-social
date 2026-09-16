@@ -83,8 +83,10 @@ First check the Actions tab for a *new-post* run at the time you published. If
 there isn't one, the ping didn't arrive — check the WordPress snippet and the
 token. If there is one and it says "No new articles", run the workflow by hand
 with the article URL in *url*. (The site's CDN caches the article list for five
-minutes; every request now carries a cache-buster and pinged runs re-check for a
-couple of minutes, so this should be rare.)
+minutes; every request carries a cache-buster and pinged runs re-check for up
+to six minutes for the specific article URL in the ping. An older unseen
+article does not end that wait. If the article is still unavailable, the run
+shows a warning rather than silently treating the older card as fulfilment.)
 
 **Heads are getting cut off in the crop.**
 Open `src/brand.py` on GitHub, click the pencil, change `FOCAL_Y = 0.36` to
