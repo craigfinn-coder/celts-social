@@ -89,5 +89,43 @@ class PublishRetryTest(unittest.TestCase):
         self.assertEqual(made, [2])
 
 
+class DirectLookupTest(unittest.TestCase):
+    """The CDN ignores query strings on /wp-json, so ?slug= returns the cached
+    latest list. Specific articles must come from unique paths instead."""
+
+    def test_ping_with_id_needs_no_list_and_no_wait(self):
+        newest = post(3, "newest")
+        with (patch.object(poll, "fetch_post_by_id", return_value=newest) as by_id,
+              patch.object(poll, "_article_html") as page):
+            self.assertEqual(poll.fetch_hinted([newest["link"]], ["3"]), [newest])
+        by_id.assert_called_once_with("3")
+        page.assert_not_called()
+
+    def test_url_without_id_reads_id_off_article_page(self):
+        newest = post(3, "newest")
+        html = '<link rel="alternate" type="application/json" ' \
+               'href="https://celtsarehere.com/wp-json/wp/v2/posts/3" />'
+        with (patch.object(poll, "_article_html", return_value=html),
+              patch.object(poll, "fetch_post_by_id", return_value=newest) as by_id):
+            self.assertEqual(poll.fetch_post_by_url(newest["link"]), newest)
+        by_id.assert_called_once_with("3")
+
+    def test_og_fallback_when_api_unavailable(self):
+        html = ('<body class="postid-7"><meta property="og:title" '
+                'content="Big News | Celts Are Here" /><meta property="og:image" '
+                'content="https://celtsarehere.com/i.jpg" />')
+        with (patch.object(poll, "_article_html", return_value=html),
+              patch.object(poll, "fetch_post_by_id", return_value=None)):
+            got = poll.fetch_post_by_url("https://celtsarehere.com/big-news/")
+        self.assertEqual((got["id"], got["title"]["rendered"],
+                          got["jetpack_featured_media_url"]),
+                         (7, "Big News", "https://celtsarehere.com/i.jpg"))
+
+    def test_wrong_or_unpublished_id_rejected(self):
+        self.assertFalse(poll._usable(dict(post(4, "x")), 3))
+        self.assertFalse(poll._usable(dict(post(3, "x"), status="draft"), 3))
+        self.assertTrue(poll._usable(post(3, "x"), "3"))
+
+
 if __name__ == "__main__":
     unittest.main()

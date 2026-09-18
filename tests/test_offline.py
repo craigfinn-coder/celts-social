@@ -59,8 +59,25 @@ def stub_get(url, **kw):
     return r
 
 
+def stub_requests_get(url, **kw):
+    """Direct lookups: /posts/<id> and article pages (unique CDN paths)."""
+    r = types.SimpleNamespace(status_code=404, content=b"", json=lambda: {})
+    if "/wp-json/wp/v2/posts/" in url:
+        pid = int(url.rstrip("/").rsplit("/", 1)[-1])
+        match = [dict(p, status="publish") for p in POSTS if p["id"] == pid]
+        if match:
+            r.status_code, r.json = 200, (lambda: match[0])
+    else:
+        match = [p for p in POSTS if p["link"] == url]
+        if match:
+            r.status_code = 200
+            r.content = (f'<body class="postid-{match[0]["id"]}">').encode()
+    return r
+
+
 def run():
     poll._get = stub_get
+    poll.requests = types.SimpleNamespace(get=stub_requests_get)
     poll.rclone_upload = lambda paths: print(f"· (stub) would upload {len(paths)} files")
 
     state_file = ROOT / "state" / "seen.json"
