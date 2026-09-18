@@ -125,13 +125,15 @@ private and the cards delivered to Google Drive instead — see below.
 card can take a few minutes when their servers are busy. Runs never overlap: if
 two posts go out together, the second waits for the first.
 
-**The font.** Barlow Condensed ExtraBold was matched to your reference
-graphics by measurement — within 3px on every line — not taken from your
-original file. If you have the real one, drop the `.ttf` into `assets/fonts/`
-and point `HEADLINE_FONT` in `src/brand.py` at it.
-
-**The green flag and logo footer** were lifted straight out of your two
-reference graphics, so those are pixel-exact.
+**The look ("news card", Sept 2026).** White NEWS label and the white
+CELTS ARE HERE logo across the top, a green CELTIC NEWS subheading, the
+headline left-aligned in Anton over a deep-green fade, and a green band with
+"Full story in the first comment". Stories show the same card, without the
+CTA wording, as a rounded panel over a blurred copy of the photo; the space
+under the panel is for Instagram's link sticker. Label and CTA type is Archivo Bold. The label,
+subheading and CTA wording are `LABEL_TEXT`, `SUB_TEXT` and the feed `cta` line in
+`src/brand.py`; long headlines shrink automatically down to `MIN_HEADLINE_SIZE`.
+The logo is the same white PNG the Graphics Builder uses.
 
 **Old cards are removed** from the page after the newest 240, so it stays
 fast. Every run is also kept as a downloadable backup under the Actions tab
