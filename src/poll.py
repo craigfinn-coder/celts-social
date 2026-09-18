@@ -45,8 +45,8 @@ VARIANTS = [v.strip() for v in
 PER_PAGE = int(os.environ.get("CAH_PER_PAGE", "15"))
 MAX_PER_RUN = int(os.environ.get("CAH_MAX_PER_RUN", "6"))
 KEEP_SEEN = 400
-PUBLISH_RECHECKS = 12
-PUBLISH_RECHECK_SECONDS = 30
+PUBLISH_RECHECKS = 36
+PUBLISH_RECHECK_SECONDS = 10
 
 
 def article_slug(url: str) -> str:
@@ -102,33 +102,114 @@ def _get(url: str, **kw):
     raise RuntimeError(f"GET {url} failed after 3 tries: {last}")
 
 
-def fetch_posts(per_page: int = PER_PAGE, slug: str | None = None) -> list[dict]:
+def fetch_posts(per_page: int = PER_PAGE) -> list[dict]:
+    """The latest-posts list. NOTE: can be up to five minutes stale.
+
+    celtsarehere.com's BunnyCDN caches /wp-json by PATH ONLY - it ignores the
+    query string entirely. So per_page, slug= and any cache-buster make no
+    difference: every /wp-json/wp/v2/posts?... request gets whatever list was
+    cached first, for up to 5 minutes. That is what made every card ~6 minutes
+    late. Never use this list to find a specific, just-published article - use
+    fetch_post_by_id / fetch_post_by_url, which hit unique paths instead.
+    """
     params = {
-        "per_page": 1 if slug else per_page,
+        "per_page": per_page,
         "_embed": "wp:featuredmedia",
         "orderby": "date",
         "order": "desc",
-        # The site's CDN caches /wp-json responses for five minutes, keyed on
-        # the full URL. A unique value per request forces a fresh pull so a
-        # run triggered seconds after publishing actually sees the new post.
-        "_cb": f"{int(time.time() * 1000)}{os.getpid()}",
+        "_cb": f"{int(time.time() * 1000)}{os.getpid()}",  # harmless if ignored
     }
-    if slug:
-        params["slug"] = slug
     return _get(API, params=params).json()
 
 
-def fetch_hinted(urls: list[str]) -> list[dict]:
-    """Fetch specific articles by URL (the ones WordPress told us about)."""
+def _usable(post, want_id: int | None = None) -> bool:
+    return (isinstance(post, dict) and post.get("id")
+            and (want_id is None or int(post["id"]) == int(want_id))
+            and post.get("status", "publish") == "publish"
+            and (post.get("title") or {}).get("rendered"))
+
+
+def fetch_post_by_id(post_id) -> dict | None:
+    """/wp-json/wp/v2/posts/<id> is a unique path, so the CDN has nothing
+    stale for it the first time it is asked for straight after publishing."""
+    try:
+        r = requests.get(f"{API}/{int(post_id)}",
+                         params={"_embed": "wp:featuredmedia"},
+                         headers=UA, timeout=20)
+        if r.status_code != 200:
+            print(f"  · post {post_id}: HTTP {r.status_code}", file=sys.stderr)
+            return None
+        post = r.json()
+    except Exception as exc:                # noqa: BLE001
+        print(f"  · post {post_id}: {exc}", file=sys.stderr)
+        return None
+    return post if _usable(post, post_id) else None
+
+
+def _article_html(url: str) -> str | None:
+    try:
+        r = requests.get(url, headers=UA, timeout=20)
+        if r.status_code != 200:
+            print(f"  · {url}: HTTP {r.status_code}", file=sys.stderr)
+            return None
+        return r.content.decode("utf-8", "replace")
+    except Exception as exc:                # noqa: BLE001
+        print(f"  · {url}: {exc}", file=sys.stderr)
+        return None
+
+
+def _meta(html: str, prop: str) -> str | None:
+    for pat in (rf'<meta[^>]+property=["\']{prop}["\'][^>]+content=["\']([^"\']+)',
+                rf'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']{prop}["\']'):
+        m = re.search(pat, html, re.I)
+        if m:
+            return m.group(1)
+    return None
+
+
+def fetch_post_by_url(url: str, post_id=None) -> dict | None:
+    """Find one specific article without touching the stale list.
+
+    1. by ID (from the ping) -> /wp-json/wp/v2/posts/<id>
+    2. read the article page (its own unique URL), pull the ID out of it, 1.
+    3. build the post from the page's og:title / og:image as a last resort.
+    """
+    if post_id:
+        post = fetch_post_by_id(post_id)
+        if post:
+            return post
+    if not url:
+        return None
+    html = _article_html(url)
+    if not html:
+        return None
+    m = (re.search(r'/wp-json/wp/v2/posts/(\d+)', html)
+         or re.search(r'\bpostid-(\d+)', html))
+    if m and str(m.group(1)) != str(post_id or ""):
+        post = fetch_post_by_id(m.group(1))
+        if post:
+            return post
+    title, image = _meta(html, "og:title"), _meta(html, "og:image")
+    if not (m and title and image):
+        return None
+    import html as _html
+    title = re.sub(r"\s*[|\u2013-]\s*Celts Are Here\s*$", "",
+                   _html.unescape(title), flags=re.I)
+    published = _meta(html, "article:published_time") or ""
+    return {"id": int(m.group(1)), "slug": article_slug(url), "link": url,
+            "status": "publish", "title": {"rendered": title},
+            "date_gmt": published[:19], "jetpack_featured_media_url": image}
+
+
+def fetch_hinted(urls: list[str], ids: list = ()) -> list[dict]:
+    """Fetch the specific articles WordPress told us about."""
     found: list[dict] = []
-    for url in urls:
-        slug = article_slug(url) if url else ""
-        if not slug:
-            continue
-        try:
-            found += [p for p in fetch_posts(slug=slug) if p.get("id")]
-        except Exception as exc:            # noqa: BLE001
-            print(f"  ! hinted lookup failed for {url}: {exc}", file=sys.stderr)
+    ids = list(ids)
+    for i, url in enumerate(urls):
+        pid = ids[i] if i < len(ids) else None
+        post = fetch_post_by_url(url, pid)
+        if post:
+            found.append(post)
     return found
 
 
@@ -238,6 +319,8 @@ def main() -> int:
     ap.add_argument("--expect-new", action="store_true",
                     help="run was triggered by a publish ping: if nothing new "
                          "shows up yet, re-check for up to six minutes")
+    ap.add_argument("--hint-id", action="append", default=[],
+                    help="post ID from the ping, same order as --hint")
     ap.add_argument("--hint", action="append", default=[],
                     help="article URL the ping said was just published "
                          "(may be given more than once)")
@@ -245,13 +328,14 @@ def main() -> int:
 
     # ---- manual single-article mode
     if args.url:
-        slug = [s for s in args.url.rstrip("/").split("/") if s][-1]
-        posts = fetch_posts(slug=slug)
-        if not posts:
-            print(f"No post found for slug {slug!r}", file=sys.stderr)
+        # (The old ?slug= lookup silently returned the cached latest-posts
+        # list, so a hand-run could render the WRONG article.)
+        post = fetch_post_by_url(args.url.split("?")[0])
+        if not post:
+            print(f"Couldn't find the article at {args.url}", file=sys.stderr)
             return 1
-        print(f"Rendering {posts[0]['link']}")
-        files = process(posts[0], args.headline)
+        print(f"Rendering {post['link']}")
+        files = process(post, args.headline)
         if files and not args.no_upload:
             rclone_upload([f for f in files if f.suffix == ".jpg"])
         return 0
@@ -264,9 +348,18 @@ def main() -> int:
     observed: dict[int, dict] = {}
 
     def look() -> tuple[list[dict], list[dict]]:
-        posts = fetch_posts()
-        hinted = [p for p in fetch_hinted(hints)
+        # The exact article first - that is the one a writer is waiting for.
+        hinted = [p for p in fetch_hinted(hints, args.hint_id)
                   if p.get("status", "publish") == "publish"]
+        try:
+            posts = fetch_posts()
+        except Exception as exc:            # noqa: BLE001
+            # The list is only a backstop for missed pings; never let it
+            # stop the pinged article from being made.
+            if not hinted:
+                raise
+            print(f"  · latest-posts list unavailable: {exc}", file=sys.stderr)
+            posts = []
         # Keep discoveries across retries; a stale response must not erase one.
         for p in posts + hinted:
             if p.get("status", "publish") == "publish":
