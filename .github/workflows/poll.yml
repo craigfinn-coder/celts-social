@@ -68,6 +68,7 @@ jobs:
           # instead of waiting for it to show up in the cached list.
           PINGED: ${{ github.event_name == 'repository_dispatch' }}
           PING_PAYLOAD: ${{ toJSON(github.event.client_payload) }}
+          PING_ID: ${{ github.event.client_payload.id || github.event.client_payload.post_id }}
           PING_URL: >-
             ${{ github.event.client_payload.url
              || github.event.client_payload.link
@@ -84,7 +85,8 @@ jobs:
           elif [ "$PINGED" = "true" ]; then
             echo "Ping payload: $PING_PAYLOAD"
             extra=()
-            [ -n "$PING_URL" ] && extra=(--hint "$PING_URL")
+            [ -n "$PING_URL" ] && extra+=(--hint "$PING_URL")
+            [ -n "$PING_ID" ] && extra+=(--hint-id "$PING_ID")
             python src/poll.py --expect-new "${extra[@]}"
           else
             python src/poll.py
