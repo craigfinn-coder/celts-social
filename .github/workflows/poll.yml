@@ -19,6 +19,11 @@ on:
         description: "Tick this on the very first run only"
         type: boolean
         default: false
+      buffer:
+        description: "Send the Facebook card to Buffer? (test = scheduled 7 days ahead, delete it after checking)"
+        type: choice
+        options: ["off", "test", "addToQueue", "shareNow"]
+        default: "off"
 
 concurrency:
   group: cah-poll
@@ -154,3 +159,22 @@ jobs:
           path: out/*
           if-no-files-found: ignore
           retention-days: 30
+
+      # Runs last so a Buffer hiccup never stops the cards or the state save.
+      # Automatic (WordPress ping) runs use the BUFFER_MODE repo variable,
+      # default addToQueue. Manual runs only post if you pick a Buffer option.
+      - name: Send Facebook card to Buffer
+        continue-on-error: true
+        env:
+          BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
+          BUFFER_MODE: >-
+            ${{ github.event_name == 'workflow_dispatch'
+                && inputs.buffer
+                || vars.BUFFER_MODE
+                || 'addToQueue' }}
+        run: |
+          if [ "$BUFFER_MODE" = "off" ]; then
+            echo "Buffer switched off for this run."
+            exit 0
+          fi
+          python src/buffer_post.py
