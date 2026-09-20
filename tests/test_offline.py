@@ -76,6 +76,7 @@ def stub_requests_get(url, **kw):
 
 
 def run():
+    poll.LIST_MAX_AGE_HOURS = 1e9   # fixtures are dated August
     poll._get = stub_get
     poll.requests = types.SimpleNamespace(get=stub_requests_get)
     poll.rclone_upload = lambda paths: print(f"· (stub) would upload {len(paths)} files")

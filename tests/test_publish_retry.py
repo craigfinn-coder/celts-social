@@ -5,6 +5,8 @@ import json
 from pathlib import Path
 import sys
 import tempfile
+import types
+from datetime import datetime, timezone
 import unittest
 from unittest.mock import patch
 
@@ -25,6 +27,7 @@ class PublishRetryTest(unittest.TestCase):
             state = Path(tmp) / "seen.json"
             state.write_text(json.dumps({"seen": [1], "last_run": None}))
             with (patch.object(poll, "STATE_FILE", state),
+                  patch.object(poll, "LIST_MAX_AGE_HOURS", 1e9),
                   patch.object(poll, "fetch_posts", side_effect=feeds),
                   patch.object(poll, "fetch_hinted", side_effect=hints),
                   patch.object(poll, "process", return_value=(
@@ -87,6 +90,87 @@ class PublishRetryTest(unittest.TestCase):
                 [[expected, newer]], [[expected]],
                 ["--expect-new", "--hint", expected["link"]])
         self.assertEqual(made, [2])
+
+
+class CdnVariantTest(unittest.TestCase):
+    """20 Sept 2026: BunnyCDN served a cached copy of a different
+    /wp-json/wp/v2/posts query whose entries had no 'id', and the run died
+    with KeyError: 'id' - the pinged article never got its card."""
+
+    def fake_list(self, data):
+        r = types.SimpleNamespace(json=lambda: data)
+        return patch.object(poll, "_get", return_value=r)
+
+    def test_entries_without_id_are_skipped_not_fatal(self):
+        good = post(5, "good")
+        good["date_gmt"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S")
+        with self.fake_list([{"title": {"rendered": "x"}, "link": "l"}, good]), \
+             contextlib.redirect_stderr(io.StringIO()):
+            self.assertEqual(poll.fetch_posts(), [good])
+
+    def test_non_list_response_is_ignored(self):
+        with self.fake_list({"code": "rest_error"}), \
+             contextlib.redirect_stderr(io.StringIO()):
+            self.assertEqual(poll.fetch_posts(), [])
+
+    def test_pinged_article_made_despite_broken_list(self):
+        newest = post(3, "newest")
+        with tempfile.TemporaryDirectory() as tmp:
+            state = Path(tmp) / "seen.json"
+            state.write_text(json.dumps({"seen": [1], "last_run": None}))
+            broken = types.SimpleNamespace(json=lambda: [{"title": {}}])
+            with (patch.object(poll, "STATE_FILE", state),
+                  patch.object(poll, "_get", return_value=broken),
+                  patch.object(poll, "fetch_post_by_url", return_value=newest),
+                  patch.object(poll, "process", return_value=[Path("c.jpg")]) as pr,
+                  patch.object(sys, "argv", ["poll.py", "--no-upload", "--expect-new",
+                                             "--payload", json.dumps(
+                                                 {"id": 3, "url": newest["link"]})]),
+                  contextlib.redirect_stdout(io.StringIO()),
+                  contextlib.redirect_stderr(io.StringIO())):
+                self.assertEqual(poll.main(), 0)
+            self.assertEqual([c.args[0]["id"] for c in pr.call_args_list], [3])
+            self.assertEqual(json.loads(state.read_text())["seen"], [1, 3])
+
+    def test_old_articles_in_cached_list_are_ignored(self):
+        self.assertFalse(poll.recent_enough(post(9, "old")))
+        fresh = dict(post(9, "new"), date_gmt=datetime.now(
+            timezone.utc).strftime("%Y-%m-%dT%H:%M:%S"))
+        self.assertTrue(poll.recent_enough(fresh))
+
+
+class RecentFromWordPressTest(unittest.TestCase):
+    """Each ping lists the last few published posts, so an article whose own
+    ping was dropped (GitHub cancels queued runs when a third arrives) is
+    made by the next ping instead of never."""
+
+    def test_dropped_ping_article_is_made_and_done_ones_not_refetched(self):
+        dropped, newest = post(2, "dropped"), post(3, "newest")
+        calls = []
+
+        def by_url(url, pid=None):
+            calls.append(pid)
+            return {"2": dropped, "3": newest}.get(str(pid))
+
+        payload = {"id": 3, "url": newest["link"],
+                   "recent": [{"id": 2, "url": dropped["link"]},
+                              {"id": 1, "url": "https://celtsarehere.com/done/"}]}
+        with tempfile.TemporaryDirectory() as tmp:
+            state = Path(tmp) / "seen.json"
+            state.write_text(json.dumps({"seen": [1], "last_run": None}))
+            with (patch.object(poll, "STATE_FILE", state),
+                  patch.object(poll, "fetch_posts", return_value=[]),
+                  patch.object(poll, "fetch_post_by_url", side_effect=by_url),
+                  patch.object(poll, "process", return_value=[Path("c.jpg")]) as pr,
+                  patch.object(poll.time, "sleep") as sleep,
+                  patch.object(sys, "argv", ["poll.py", "--no-upload", "--expect-new",
+                                             "--payload", json.dumps(payload)]),
+                  contextlib.redirect_stdout(io.StringIO()),
+                  contextlib.redirect_stderr(io.StringIO())):
+                self.assertEqual(poll.main(), 0)
+            self.assertEqual(sorted(c.args[0]["id"] for c in pr.call_args_list), [2, 3])
+            self.assertNotIn("1", calls)
+            sleep.assert_not_called()
 
 
 class DirectLookupTest(unittest.TestCase):
