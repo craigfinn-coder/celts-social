@@ -78,6 +78,29 @@ The Actions tab lists every run. Green tick means fine. It's also stamped at the
 top of your writers' page. A run labelled *new-post* was started by a WordPress
 ping; its log has a "Ping payload" line showing exactly what WordPress sent.
 
+**A card or Facebook post didn't go through (writers).**
+In WordPress go to **Posts**, hover over the article and click
+**Resend social card**. A green notice confirms the request reached GitHub.
+The card is remade on the writers' page within a couple of minutes and, if
+that article never made it to Facebook, it goes to Buffer. It will not post
+an article to Facebook twice (`state/buffered.json` keeps track), so the link
+is safe to press if you're not sure. It's also in the admin bar when you view
+a published article on the site.
+
+**How you'll know something failed.** A run turns red (and GitHub emails you)
+if the card couldn't be made or Buffer refused the post after three tries. The
+red run's summary says which article; the fix is the Resend link above.
+
+**What made runs fail at random (fixed 20 Sept 2026).** The CDN caches
+`/wp-json/wp/v2/posts` by path only, so the "latest posts" list is sometimes a
+cached copy of some other request to that address (a different page, filter
+or `_fields=` list). When that copy had no post IDs the run crashed with
+`KeyError: 'id'` before making the pinged article's card; it only went out
+when the next article was published. Unusable entries are now skipped, the
+list only counts articles from the last 12 hours, the pinged article is always
+fetched directly, and each ping also names WordPress's last few published
+posts so one whose own ping got dropped is picked up by the next.
+
 **A card didn't appear after publishing.**
 First check the Actions tab for a *new-post* run at the time you published. If
 there isn't one, the ping didn't arrive — check the WordPress snippet and the
