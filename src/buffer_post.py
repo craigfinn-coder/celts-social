@@ -12,6 +12,12 @@ Needs the BUFFER_API_KEY secret. Settings come from env:
                      "test" schedules the post 7 days ahead so it can be
                      checked in Buffer and deleted before it goes out.
   PAGES_BASE         public base URL of the cards folder
+  BUFFER_FORCE       "true" = post even if this article already went to Buffer
+
+Every article sent is recorded in state/buffered.json, so a re-run (for
+example a writer pressing "Resend social card" in WordPress) never posts the
+same article to Facebook twice. Buffer is tried three times before giving up;
+a failure is printed as a GitHub ::error:: so the run shows red.
 """
 from __future__ import annotations
 
@@ -26,6 +32,10 @@ import requests
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT_DIR = ROOT / "out"
+SENT_FILE = ROOT / "state" / "buffered.json"
+KEEP_SENT = 400
+FORCE = os.environ.get("BUFFER_FORCE", "").strip().lower() in ("1", "true", "yes")
+RETRY_WAITS = (0, 20, 60)
 API = "https://api.buffer.com"
 
 CHANNEL = os.environ.get("BUFFER_CHANNEL_ID") or "6aadba11ea19ca0bde7f8ac0"
@@ -42,6 +52,25 @@ mutation CreatePost($input: CreatePostInput!) {
   }
 }
 """
+
+
+def article_key(card: Path) -> str:
+    """2026-09-19_some-slug_facebook.jpg -> some-slug"""
+    stem = card.stem.rsplit("_", 1)[0]
+    return stem.split("_", 1)[1] if "_" in stem else stem
+
+
+def load_sent() -> dict:
+    try:
+        return json.loads(SENT_FILE.read_text())
+    except (OSError, ValueError):
+        return {}
+
+
+def save_sent(sent: dict) -> None:
+    keep = sorted(sent.items(), key=lambda kv: kv[1].get("at", ""))[-KEEP_SENT:]
+    SENT_FILE.parent.mkdir(parents=True, exist_ok=True)
+    SENT_FILE.write_text(json.dumps(dict(keep), indent=2) + "\n")
 
 
 def read_caption(card: Path) -> tuple[str, str] | None:
@@ -96,6 +125,22 @@ def build_input(headline: str, link: str, image_url: str) -> dict:
     return inp
 
 
+def create_post_with_retries(key: str, inp: dict) -> tuple[bool, str]:
+    msg = ""
+    for n, wait in enumerate(RETRY_WAITS, 1):
+        if wait:
+            print(f"  retrying in {wait}s (attempt {n}/{len(RETRY_WAITS)})")
+            time.sleep(wait)
+        try:
+            ok, msg = create_post(key, inp)
+        except requests.RequestException as exc:
+            ok, msg = False, f"network error: {exc}"
+        if ok:
+            return ok, msg
+        print(f"  Buffer said no: {msg}")
+    return False, msg
+
+
 def create_post(key: str, inp: dict) -> tuple[bool, str]:
     r = requests.post(API, timeout=60,
                       headers={"Authorization": f"Bearer {key}",
@@ -123,22 +168,39 @@ def main() -> int:
         print("No Facebook cards this run - nothing sent to Buffer.")
         return 0
 
+    sent = load_sent()
     failed = 0
     for card in cards:
+        art = article_key(card)
+        print(f"- {card.name}")
+        if art in sent and not FORCE and MODE != "test":
+            print(f"  already sent to Buffer {sent[art].get('at', '')} "
+                  "- not posting it twice")
+            continue
         cap = read_caption(card)
         if not cap:
+            print(f"::error::Buffer: no caption for {card.name}")
             failed += 1
             continue
         headline, link = cap
         image_url = f"{PAGES_BASE}/{card.name}"
-        print(f"- {card.name}")
         if not wait_until_live(image_url):
-            print(f"  ! card never went live at {image_url} - skipped")
+            print(f"::error::Buffer: card never went live at {image_url} "
+                  "- NOT posted. Use 'Resend social card' in WordPress.")
             failed += 1
             continue
-        ok, msg = create_post(key, build_input(headline, link, image_url))
-        print(f"  {'sent to Buffer' if ok else 'BUFFER ERROR'} ({MODE}): {msg}")
-        failed += 0 if ok else 1
+        ok, msg = create_post_with_retries(key, build_input(headline, link, image_url))
+        if ok:
+            print(f"  sent to Buffer ({MODE}): {msg}")
+            if MODE != "test":
+                sent[art] = {"at": dt.datetime.now(dt.timezone.utc).isoformat(
+                    timespec="seconds"), "link": link, "buffer": msg}
+                save_sent(sent)
+        else:
+            print(f"::error::Buffer rejected '{headline}' after "
+                  f"{len(RETRY_WAITS)} tries: {msg}. NOT posted to Facebook. "
+                  "Use 'Resend social card' in WordPress to try again.")
+            failed += 1
     return 1 if failed else 0
 
 

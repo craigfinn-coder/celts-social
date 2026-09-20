@@ -47,6 +47,11 @@ MAX_PER_RUN = int(os.environ.get("CAH_MAX_PER_RUN", "6"))
 KEEP_SEEN = 400
 PUBLISH_RECHECKS = 36
 PUBLISH_RECHECK_SECONDS = 10
+# The latest-posts list is a backstop only, and the CDN can hand back a cached
+# copy of somebody else's query (a category page, a _fields= request, an old
+# page 2). Anything in it older than this is ignored, so a strange cached list
+# can never flood Facebook with old articles.
+LIST_MAX_AGE_HOURS = float(os.environ.get("CAH_LIST_MAX_AGE_HOURS", "12"))
 
 
 def article_slug(url: str) -> str:
@@ -119,7 +124,31 @@ def fetch_posts(per_page: int = PER_PAGE) -> list[dict]:
         "order": "desc",
         "_cb": f"{int(time.time() * 1000)}{os.getpid()}",  # harmless if ignored
     }
-    return _get(API, params=params).json()
+    data = _get(API, params=params).json()
+    if not isinstance(data, list):
+        print(f"  · latest-posts list was not a list ({type(data).__name__}) "
+              "- ignoring it", file=sys.stderr)
+        return []
+    good = [p for p in data if _usable(p) and p.get("date_gmt")
+            and (p.get("slug") or p.get("link"))]
+    if len(good) != len(data):
+        # This is exactly what crashed runs on 20 Sept 2026 (KeyError: 'id'):
+        # BunnyCDN served a cached variant of the list without the fields we
+        # need. Skip it rather than fall over.
+        print(f"  · latest-posts list: {len(data) - len(good)} of {len(data)} "
+              "entries unusable (CDN served a different cached query) "
+              "- skipped", file=sys.stderr)
+    return good
+
+
+def recent_enough(post: dict) -> bool:
+    try:
+        when = datetime.fromisoformat(str(post.get("date_gmt"))[:19]).replace(
+            tzinfo=timezone.utc)
+    except ValueError:
+        return False
+    age = (datetime.now(timezone.utc) - when).total_seconds() / 3600
+    return age <= LIST_MAX_AGE_HOURS
 
 
 def _usable(post, want_id: int | None = None) -> bool:
@@ -201,13 +230,23 @@ def fetch_post_by_url(url: str, post_id=None) -> dict | None:
             "date_gmt": published[:19], "jetpack_featured_media_url": image}
 
 
-def fetch_hinted(urls: list[str], ids: list = ()) -> list[dict]:
-    """Fetch the specific articles WordPress told us about."""
+def fetch_hinted(urls: list[str], ids: list = (), skip_ids=()) -> list[dict]:
+    """Fetch the specific articles WordPress told us about.
+
+    skip_ids: post IDs already done - not fetched again (keeps requests to the
+    site down when WordPress lists recent posts in every ping)."""
     found: list[dict] = []
     ids = list(ids)
+    skip = {str(i) for i in skip_ids}
     for i, url in enumerate(urls):
         pid = ids[i] if i < len(ids) else None
-        post = fetch_post_by_url(url, pid)
+        if pid and str(pid) in skip:
+            continue
+        try:
+            post = fetch_post_by_url(url, pid)
+        except Exception as exc:            # noqa: BLE001
+            print(f"  · {url}: {exc}", file=sys.stderr)
+            post = None
         if post:
             found.append(post)
     return found
@@ -315,6 +354,9 @@ def main() -> int:
                     help="mark current posts as seen without rendering")
     ap.add_argument("--url", help="render one article by URL, ignoring state")
     ap.add_argument("--headline", help="override the headline text")
+    ap.add_argument("--id", help="with --url: the WordPress post ID, if known")
+    ap.add_argument("--mark-seen", action="store_true",
+                    help="with --url: also record the article as done")
     ap.add_argument("--no-upload", action="store_true")
     ap.add_argument("--expect-new", action="store_true",
                     help="run was triggered by a publish ping: if nothing new "
@@ -324,46 +366,89 @@ def main() -> int:
     ap.add_argument("--hint", action="append", default=[],
                     help="article URL the ping said was just published "
                          "(may be given more than once)")
+    ap.add_argument("--payload", default="",
+                    help="the WordPress ping's client_payload as JSON: "
+                         "url + id of the new article, plus 'recent' - the "
+                         "last few published posts, so a ping GitHub dropped "
+                         "is picked up by the next one")
     args = ap.parse_args()
 
     # ---- manual single-article mode
     if args.url:
         # (The old ?slug= lookup silently returned the cached latest-posts
         # list, so a hand-run could render the WRONG article.)
-        post = fetch_post_by_url(args.url.split("?")[0])
+        post = fetch_post_by_url(args.url.split("?")[0], args.id)
         if not post:
-            print(f"Couldn't find the article at {args.url}", file=sys.stderr)
+            print(f"::error::Couldn't find the article at {args.url} - is it "
+                  "published?", file=sys.stderr)
             return 1
         print(f"Rendering {post['link']}")
         files = process(post, args.headline)
-        if files and not args.no_upload:
+        if not files:
+            print("::error::No card made (no featured image?)", file=sys.stderr)
+            return 1
+        if args.mark_seen:
+            state = load_state()
+            if post["id"] not in state["seen"]:
+                state["seen"].append(post["id"])
+            save_state(state)
+        if not args.no_upload:
             rclone_upload([f for f in files if f.suffix == ".jpg"])
         return 0
 
     state = load_state()
     seen = set(state["seen"])
 
-    hints = [u for u in args.hint if u]
-    expected_slugs = {article_slug(u) for u in hints if article_slug(u)}
+    # (url, id) pairs for the articles WordPress told us about.
+    pairs: list[tuple[str, str | None]] = []
+    ids = list(args.hint_id)
+    for n in range(max(len(args.hint), len(ids))):
+        pairs.append((args.hint[n] if n < len(args.hint) else "",
+                      ids[n] if n < len(ids) and ids[n] else None))
+    main: list[tuple[str, str | None]] = [p for p in pairs if p[0] or p[1]]
+    if args.payload:
+        try:
+            pl = json.loads(args.payload) or {}
+        except (TypeError, ValueError):
+            pl = {}
+        if isinstance(pl, dict):
+            u = next((pl.get(k) for k in ("url", "link", "permalink",
+                                          "post_url", "post_permalink")
+                      if pl.get(k)), "")
+            i = pl.get("id") or pl.get("post_id")
+            if u or i:
+                main.append((str(u), str(i) if i else None))
+            for r in pl.get("recent") or []:
+                if isinstance(r, dict) and (r.get("url") or r.get("id")):
+                    pairs.append((str(r.get("url") or ""),
+                                  str(r["id"]) if r.get("id") else None))
+    pairs = main + [p for p in pairs if p not in main]
+    hints = [u for u, _ in pairs]
+    hint_ids = [i for _, i in pairs]
+    # Only the article this ping is FOR is waited on - not the recent list,
+    # and not one that is already done (a duplicate ping).
+    expected_slugs = {article_slug(u) for u, i in main
+                      if u and article_slug(u)
+                      and not (i and str(i).isdigit() and int(i) in seen)}
     observed: dict[int, dict] = {}
 
     def look() -> tuple[list[dict], list[dict]]:
         # The exact article first - that is the one a writer is waiting for.
-        hinted = [p for p in fetch_hinted(hints, args.hint_id)
-                  if p.get("status", "publish") == "publish"]
+        hinted = [p for p in fetch_hinted(hints, hint_ids, seen)
+                  if _usable(p)]
         try:
             posts = fetch_posts()
         except Exception as exc:            # noqa: BLE001
             # The list is only a backstop for missed pings; never let it
             # stop the pinged article from being made.
-            if not hinted:
+            if not hinted and not observed:
                 raise
             print(f"  · latest-posts list unavailable: {exc}", file=sys.stderr)
             posts = []
         # Keep discoveries across retries; a stale response must not erase one.
-        for p in posts + hinted:
-            if p.get("status", "publish") == "publish":
-                observed[p["id"]] = p
+        # From the list, only recent articles count (see LIST_MAX_AGE_HOURS).
+        for p in [p for p in posts if _usable(p) and recent_enough(p)] + hinted:
+            observed[p["id"]] = p
         fresh = [p for p in observed.values() if p["id"] not in seen]
         fresh.sort(key=lambda p: p.get("date_gmt") or "")
         return posts, fresh
