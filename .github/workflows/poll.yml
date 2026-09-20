@@ -4,8 +4,9 @@ on:
   # WordPress pings this the moment a post is published.
   # There is deliberately NO schedule: polling the site every 15 minutes got
   # GitHub's runners blocked by the site's bot protection (403). Push, don't poll.
+  # "rerun-card" comes from the "Resend social card" link in WordPress.
   repository_dispatch:
-    types: [new-post]
+    types: [new-post, rerun-card]
 
   workflow_dispatch:
     inputs:
@@ -72,6 +73,7 @@ jobs:
           # (under any of these keys) that article is looked up directly
           # instead of waiting for it to show up in the cached list.
           PINGED: ${{ github.event_name == 'repository_dispatch' }}
+          RERUN: ${{ github.event.action == 'rerun-card' }}
           PING_PAYLOAD: ${{ toJSON(github.event.client_payload) }}
           PING_ID: ${{ github.event.client_payload.id || github.event.client_payload.post_id }}
           PING_URL: >-
@@ -87,12 +89,19 @@ jobs:
             python src/poll.py --url "$IN_URL" --headline "$IN_HEADLINE"
           elif [ -n "$IN_URL" ]; then
             python src/poll.py --url "$IN_URL"
+          elif [ "$RERUN" = "true" ]; then
+            echo "Resend requested from WordPress: $PING_PAYLOAD"
+            extra=()
+            [ -n "$PING_ID" ] && extra+=(--id "$PING_ID")
+            python src/poll.py --url "$PING_URL" --mark-seen "${extra[@]}"
           elif [ "$PINGED" = "true" ]; then
             echo "Ping payload: $PING_PAYLOAD"
-            extra=()
-            [ -n "$PING_URL" ] && extra+=(--hint "$PING_URL")
-            [ -n "$PING_ID" ] && extra+=(--hint-id "$PING_ID")
-            python src/poll.py --expect-new "${extra[@]}"
+            # One retry: a wobble on the site or GitHub shouldn't cost a card.
+            python src/poll.py --expect-new --payload "$PING_PAYLOAD" || {
+              echo "::warning::First attempt failed - trying once more in 30s"
+              sleep 30
+              python src/poll.py --expect-new --payload "$PING_PAYLOAD"
+            }
           else
             python src/poll.py
           fi
@@ -133,18 +142,41 @@ jobs:
           git push -f "$repo" latest:gh-pages
           echo "Writers' page updated."
 
+      # Buffer runs before the state is saved so what it sent is recorded
+      # (state/buffered.json) and a re-run never posts the same article twice.
+      # continue-on-error so a Buffer hiccup never stops the state save; the
+      # last step turns the run red if Buffer failed, so it gets noticed.
+      # Automatic (WordPress ping / resend) runs use the BUFFER_MODE repo
+      # variable, default addToQueue. Manual runs only post if you pick one.
+      - name: Send Facebook card to Buffer
+        id: buffer
+        continue-on-error: true
+        env:
+          BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
+          BUFFER_MODE: >-
+            ${{ github.event_name == 'workflow_dispatch'
+                && inputs.buffer
+                || vars.BUFFER_MODE
+                || 'addToQueue' }}
+        run: |
+          if [ "$BUFFER_MODE" = "off" ]; then
+            echo "Buffer switched off for this run."
+            exit 0
+          fi
+          python src/buffer_post.py
+
       - name: Remember which articles are done
         run: |
           git config user.name  "celtsarehere-bot"
           git config user.email "bot@users.noreply.github.com"
-          git add state/seen.json
+          git add state/seen.json state/buffered.json
           git diff --staged --quiet && exit 0
           git commit -q -m "state: $(date -u +%FT%TZ)"
           for attempt in 1 2 3; do
             git fetch origin "${GITHUB_REF_NAME}"
             if ! git rebase FETCH_HEAD; then
-              git checkout --theirs state/seen.json
-              git add state/seen.json
+              git checkout --theirs state/seen.json state/buffered.json 2>/dev/null || true
+              git add state/seen.json state/buffered.json
               GIT_EDITOR=true git rebase --continue || { git rebase --abort; exit 1; }
             fi
             git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
@@ -160,21 +192,8 @@ jobs:
           if-no-files-found: ignore
           retention-days: 30
 
-      # Runs last so a Buffer hiccup never stops the cards or the state save.
-      # Automatic (WordPress ping) runs use the BUFFER_MODE repo variable,
-      # default addToQueue. Manual runs only post if you pick a Buffer option.
-      - name: Send Facebook card to Buffer
-        continue-on-error: true
-        env:
-          BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
-          BUFFER_MODE: >-
-            ${{ github.event_name == 'workflow_dispatch'
-                && inputs.buffer
-                || vars.BUFFER_MODE
-                || 'addToQueue' }}
+      - name: Flag a Buffer failure
+        if: ${{ steps.buffer.outcome == 'failure' }}
         run: |
-          if [ "$BUFFER_MODE" = "off" ]; then
-            echo "Buffer switched off for this run."
-            exit 0
-          fi
-          python src/buffer_post.py
+          echo "::error::The card was made but did NOT reach Facebook. Open the post in WordPress (Posts list) and click 'Resend social card'."
+          exit 1
