@@ -105,9 +105,11 @@ def wait_until_live(url: str, limit: int = 420) -> bool:
     return False
 
 
-def build_input(headline: str, link: str, image_url: str) -> dict:
+def build_input(headline: str, link: str, image_url: str,
+                channel: str | None = None, mode: str | None = None) -> dict:
+    mode = mode or MODE
     inp = {
-        "channelId": CHANNEL,
+        "channelId": channel or CHANNEL,
         "text": headline,
         "schedulingType": "automatic",
         "assets": [{"image": {"url": image_url,
@@ -115,13 +117,13 @@ def build_input(headline: str, link: str, image_url: str) -> dict:
         "metadata": {"facebook": {"type": "post",
                                   "firstComment": f"{COMMENT_PREFIX}{link}"}},
     }
-    if MODE == "test":
+    if mode == "test":
         due = (dt.datetime.now(dt.timezone.utc) + dt.timedelta(days=7)).replace(
             hour=8, minute=0, second=0, microsecond=0)
         inp["mode"] = "customScheduled"
         inp["dueAt"] = due.strftime("%Y-%m-%dT%H:%M:%S.000Z")
     else:
-        inp["mode"] = MODE
+        inp["mode"] = mode
     return inp
 
 

@@ -6,7 +6,9 @@ on:
   # GitHub's runners blocked by the site's bot protection (403). Push, don't poll.
   # "rerun-card" comes from the "Resend social card" link in WordPress.
   repository_dispatch:
-    types: [new-post, rerun-card]
+    # "promote-check" comes hourly from WordPress with the posts doing best
+    # right now; the promote job reposts the winner to the 80k page.
+    types: [new-post, rerun-card, promote-check]
 
   workflow_dispatch:
     inputs:
@@ -35,6 +37,7 @@ permissions:
 
 jobs:
   poll:
+    if: ${{ github.event.action != 'promote-check' }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -196,4 +199,53 @@ jobs:
         if: ${{ steps.buffer.outcome == 'failure' }}
         run: |
           echo "::error::The card was made but did NOT reach Facebook. Open the post in WordPress (Posts list) and click 'Resend social card'."
+          exit 1
+
+  # Hourly from WordPress: repost the best-performing recent story to the
+  # second Facebook page (80k). Rules live in src/promote.py; tune them with
+  # repo variables (PROMOTE_MODE, PROMOTE_MIN_VIEWS, PROMOTE_MAX_PER_DAY...).
+  promote:
+    if: ${{ github.event.action == 'promote-check' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Pick and post the winner
+        env:
+          BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
+          PING_PAYLOAD: ${{ toJSON(github.event.client_payload) }}
+          PROMOTE_CHANNEL_ID: ${{ vars.PROMOTE_CHANNEL_ID }}
+          PROMOTE_MODE: ${{ vars.PROMOTE_MODE }}
+          PROMOTE_MIN_VIEWS: ${{ vars.PROMOTE_MIN_VIEWS }}
+          PROMOTE_MAX_PER_DAY: ${{ vars.PROMOTE_MAX_PER_DAY }}
+          PROMOTE_GAP_MIN: ${{ vars.PROMOTE_GAP_MIN }}
+          PROMOTE_QUIET: ${{ vars.PROMOTE_QUIET }}
+        run: python src/promote.py
+
+      - name: Remember what went to the 80k page
+        if: always()
+        run: |
+          git config user.name  "celtsarehere-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add state/promoted.json 2>/dev/null || exit 0
+          git diff --staged --quiet && exit 0
+          git commit -q -m "promoted: $(date -u +%FT%TZ)"
+          for attempt in 1 2 3; do
+            git fetch origin "${GITHUB_REF_NAME}"
+            if ! git rebase FETCH_HEAD; then
+              git checkout --theirs state/promoted.json 2>/dev/null || true
+              git add state/promoted.json
+              GIT_EDITOR=true git rebase --continue || { git rebase --abort; exit 1; }
+            fi
+            git push origin "HEAD:${GITHUB_REF_NAME}" && exit 0
+          done
           exit 1
