@@ -1,9 +1,4 @@
 {
-  "daizen-maeda-glasgow-derby-celtic-park-return": {
-    "at": "2026-09-19T17:54:34+00:00",
-    "link": "https://celtsarehere.com/daizen-maeda-glasgow-derby-celtic-park-return/",
-    "buffer": "seeded (sent before tracking began)"
-  },
   "celtic-wigan-gary-caldwell-kevin-miller": {
     "at": "2026-09-19T20:05:55+00:00",
     "link": "https://celtsarehere.com/celtic-wigan-gary-caldwell-kevin-miller/",
@@ -1998,5 +1993,10 @@
     "at": "2026-10-13T16:40:02+00:00",
     "link": "https://celtsarehere.com/landon-emenalo-celtic-training/",
     "buffer": "post 6ace5ed70b1619ab65689de1 due 2026-10-13T16:39:51.936Z"
+  },
+  "david-moyes-celtic-chance-passed": {
+    "at": "2026-10-13T18:03:46+00:00",
+    "link": "https://celtsarehere.com/david-moyes-celtic-chance-passed/",
+    "buffer": "post 6ace72789d8488527041ca3a due 2026-10-13T18:03:36.399Z"
   }
 }
