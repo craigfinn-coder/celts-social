@@ -1,9 +1,4 @@
 {
-  "oneill-reset-celtic-concern": {
-    "at": "2026-09-20T13:31:32+00:00",
-    "link": "https://celtsarehere.com/oneill-reset-celtic-concern/",
-    "buffer": "seeded (sent before tracking began)"
-  },
   "oneill-celtic-blame": {
     "at": "2026-09-20T13:48:33+00:00",
     "link": "https://celtsarehere.com/oneill-celtic-blame/",
@@ -1998,5 +1993,10 @@
     "at": "2026-10-14T07:26:26+00:00",
     "link": "https://celtsarehere.com/silva-insider-celtic-benfica/",
     "buffer": "post 6acf2e971f3f10bcb7b8486d due 2026-10-14T07:26:15.948Z"
+  },
+  "celtics-unseen-announcement": {
+    "at": "2026-10-14T07:51:49+00:00",
+    "link": "https://celtsarehere.com/celtics-unseen-announcement/",
+    "buffer": "post 6acf348c848c31c8096549d0 due 2026-10-14T07:51:40.491Z"
   }
 }
