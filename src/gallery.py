@@ -17,7 +17,7 @@ from pathlib import Path
 
 ISO_RE = re.compile(r"^\d{4}-\d{2}-\d{2}[T ]\d{2}:\d{2}")
 
-KEEP = int(os.environ.get("CAH_GALLERY_KEEP", "240"))   # cards kept on the site
+KEEP = int(os.environ.get("CAH_GALLERY_KEEP", "60"))   # cards kept on the site
 
 
 PAGE = """<!doctype html>
