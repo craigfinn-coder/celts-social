@@ -1,9 +1,4 @@
 {
-  "oneill-celtic-exit-legacy": {
-    "at": "2026-09-20T18:41:45+00:00",
-    "link": "https://celtsarehere.com/oneill-celtic-exit-legacy/",
-    "buffer": "post 6ab028e19a5eadd2b1c9bbd4 due 2026-09-20T18:41:37.056Z"
-  },
   "john-beaton-celtic-rangers": {
     "at": "2026-09-20T18:53:47+00:00",
     "link": "https://celtsarehere.com/john-beaton-celtic-rangers/",
@@ -1998,5 +1993,10 @@
     "at": "2026-10-14T18:33:47+00:00",
     "link": "https://celtsarehere.com/celtic-manager-sets-europa-league-target/",
     "buffer": "post 6acfcb01eac88d1d1a8e0d26 due 2026-10-14T18:33:37.128Z"
+  },
+  "camilo-durans-benfica-vs-celtic-availability-addressed": {
+    "at": "2026-10-14T18:59:48+00:00",
+    "link": "https://celtsarehere.com/camilo-durans-benfica-vs-celtic-availability-addressed/",
+    "buffer": "post 6acfd11a199c0449d73a8449 due 2026-10-14T18:59:38.855Z"
   }
 }
