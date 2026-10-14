@@ -48,7 +48,13 @@ jobs:
       RCLONE_REMOTE: ${{ secrets.RCLONE_REMOTE }}
 
     steps:
+      # Always start from the CURRENT tip of main, not the commit the ping was
+      # pinned to. Two posts published seconds apart queue two runs; without
+      # this the second run (and any re-run) starts with a stale seen.json,
+      # renders the first article again and Buffer rejects it as a duplicate.
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
 
       - uses: actions/setup-python@v5
         with:
@@ -210,6 +216,8 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
 
       - uses: actions/setup-python@v5
         with:

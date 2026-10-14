@@ -140,6 +140,8 @@ def create_post_with_retries(key: str, inp: dict) -> tuple[bool, str]:
         if ok:
             return ok, msg
         print(f"  Buffer said no: {msg}")
+        if "already got this one" in msg:
+            break  # retrying a duplicate will never succeed
     return False, msg
 
 
@@ -192,6 +194,12 @@ def main() -> int:
             failed += 1
             continue
         ok, msg = create_post_with_retries(key, build_input(headline, link, image_url))
+        if not ok and "already got this one" in msg:
+            # Buffer has this post already (a re-run, or two articles
+            # published seconds apart). It reached Facebook - record it and
+            # move on rather than turning the run red.
+            print("  Buffer already has this post - treating it as sent")
+            ok, msg = True, "duplicate: already in Buffer"
         if ok:
             print(f"  sent to Buffer ({MODE}): {msg}")
             if MODE != "test":
