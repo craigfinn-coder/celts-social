@@ -1,9 +1,4 @@
 {
-  "cameron-carter-vickers-celtic-identity": {
-    "at": "2026-09-21T15:19:05+00:00",
-    "link": "https://celtsarehere.com/cameron-carter-vickers-celtic-identity/",
-    "buffer": "post 6ab14ade6ea2e860e365b076 due 2026-09-21T15:18:54.600Z"
-  },
   "tom-boyd-martin-oneill-celtic": {
     "at": "2026-09-21T15:51:25+00:00",
     "link": "https://celtsarehere.com/tom-boyd-martin-oneill-celtic/",
@@ -1998,5 +1993,10 @@
     "at": "2026-10-15T10:46:12+00:00",
     "link": "https://celtsarehere.com/mcgregor-celtic-benfica-fixture/",
     "buffer": "post 6ad0aeeb230b9109a48d09ae due 2026-10-15T10:46:03.897Z"
+  },
+  "henrik-larsson-podcast-open-goal": {
+    "at": "2026-10-15T11:33:57+00:00",
+    "link": "https://celtsarehere.com/henrik-larsson-podcast-open-goal/",
+    "buffer": "post 6ad0ba1da5eef0dc228179ea due 2026-10-15T11:33:49.908Z"
   }
 }
