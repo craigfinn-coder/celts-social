@@ -1,9 +1,4 @@
 {
-  "tom-boyd-martin-oneill-celtic": {
-    "at": "2026-09-21T15:51:25+00:00",
-    "link": "https://celtsarehere.com/tom-boyd-martin-oneill-celtic/",
-    "buffer": "post 6ab1527361daba7c925f1c18 due 2026-09-21T15:51:15.091Z"
-  },
   "simon-jordan-oneill-celtic-interview": {
     "at": "2026-09-21T16:26:47+00:00",
     "link": "https://celtsarehere.com/simon-jordan-oneill-celtic-interview/",
@@ -1998,5 +1993,10 @@
     "at": "2026-10-15T11:33:57+00:00",
     "link": "https://celtsarehere.com/henrik-larsson-podcast-open-goal/",
     "buffer": "post 6ad0ba1da5eef0dc228179ea due 2026-10-15T11:33:49.908Z"
+  },
+  "oneill-celtic-change-benfica": {
+    "at": "2026-10-15T13:48:07+00:00",
+    "link": "https://celtsarehere.com/oneill-celtic-change-benfica/",
+    "buffer": "post 6ad0d98d74e49a7f60fdb3dd due 2026-10-15T13:47:57.813Z"
   }
 }
