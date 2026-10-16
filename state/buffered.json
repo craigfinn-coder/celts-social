@@ -1,9 +1,4 @@
 {
-  "former-referee-dismisses-calls-for-camilo-duran-derby-red-ca": {
-    "at": "2026-09-22T09:33:03+00:00",
-    "link": "https://celtsarehere.com/former-referee-dismisses-calls-for-camilo-duran-derby-red-card/",
-    "buffer": "post 6ab24b45f8653937aa0a72f6 due 2026-09-22T09:32:53.494Z"
-  },
   "celtic-b-east-kilbride-tv-channel": {
     "at": "2026-09-22T11:33:50+00:00",
     "link": "https://celtsarehere.com/celtic-b-east-kilbride-tv-channel/",
@@ -1998,5 +1993,10 @@
     "at": "2026-10-16T06:26:10+00:00",
     "link": "https://celtsarehere.com/oneill-celtic-benfica-message/",
     "buffer": "post 6ad1c378e991a49db3cf39ab due 2026-10-16T06:26:00.756Z"
+  },
+  "sutton-celtic-benfica-verdict": {
+    "at": "2026-10-16T06:55:05+00:00",
+    "link": "https://celtsarehere.com/sutton-celtic-benfica-verdict/",
+    "buffer": "post 6ad1ca3ffb64fffcf1bb22f3 due 2026-10-16T06:54:55.099Z"
   }
 }
