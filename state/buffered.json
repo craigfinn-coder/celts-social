@@ -1,9 +1,4 @@
 {
-  "la-liga-spain-pullan-celtic-b": {
-    "at": "2026-09-23T10:14:13+00:00",
-    "link": "https://celtsarehere.com/la-liga-spain-pullan-celtic-b/",
-    "buffer": "post 6ab3a66a4f6020481c496cda due 2026-09-23T10:14:02.979Z"
-  },
   "rhys-dargie-celtic-goal-east-kilbride": {
     "at": "2026-09-23T10:42:31+00:00",
     "link": "https://celtsarehere.com/rhys-dargie-celtic-goal-east-kilbride/",
@@ -1998,5 +1993,10 @@
     "at": "2026-10-16T16:10:21+00:00",
     "link": "https://celtsarehere.com/mcinnes-rangers-envy-oneill/",
     "buffer": "post 6ad24c63709e3eab3f96f289 due 2026-10-16T16:10:11.955Z"
+  },
+  "oneill-confronted-celtic-record": {
+    "at": "2026-10-16T16:35:38+00:00",
+    "link": "https://celtsarehere.com/oneill-confronted-celtic-record/",
+    "buffer": "post 6ad252511ae2814dc97ecf72 due 2026-10-16T16:35:29.601Z"
   }
 }
