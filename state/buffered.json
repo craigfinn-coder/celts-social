@@ -1,9 +1,4 @@
 {
-  "liam-scales-ireland-celtic": {
-    "at": "2026-09-25T07:47:24+00:00",
-    "link": "https://celtsarehere.com/liam-scales-ireland-celtic/",
-    "buffer": "post 6ab62702cbe818dd4ffe34a3 due 2026-09-25T07:47:14.148Z"
-  },
   "celtic-major-injury-blow": {
     "at": "2026-09-25T10:59:33+00:00",
     "link": "https://celtsarehere.com/celtic-major-injury-blow/",
@@ -1998,5 +1993,10 @@
     "at": "2026-10-18T18:30:28+00:00",
     "link": "https://celtsarehere.com/oneill-touchline-frustration-celtic-star/",
     "buffer": "post 6ad51039769b457934d55fb7 due 2026-10-18T18:30:17.966Z"
+  },
+  "osmand-celtic-post": {
+    "at": "2026-10-18T19:03:55+00:00",
+    "link": "https://celtsarehere.com/osmand-celtic-post/",
+    "buffer": "post 6ad518110a208cb3237a8154 due 2026-10-18T19:03:45.245Z"
   }
 }
