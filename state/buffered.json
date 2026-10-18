@@ -1,9 +1,4 @@
 {
-  "celtic-ferry-latest": {
-    "at": "2026-09-24T16:43:53+00:00",
-    "link": "https://celtsarehere.com/celtic-ferry-latest/",
-    "buffer": "post 6ab5533f4a68d8afcc57a580 due 2026-09-24T16:43:43.660Z"
-  },
   "michael-stewart-celtic-transfer": {
     "at": "2026-09-24T17:14:16+00:00",
     "link": "https://celtsarehere.com/michael-stewart-celtic-transfer/",
@@ -1998,5 +1993,10 @@
     "at": "2026-10-18T12:47:59+00:00",
     "link": "https://celtsarehere.com/celtic-starting-xi-hearts/",
     "buffer": "post 6ad4bff50b0d72757a2163f5 due 2026-10-18T12:47:49.322Z"
+  },
+  "celtic-summer-signing-hearts": {
+    "at": "2026-10-18T13:05:51+00:00",
+    "link": "https://celtsarehere.com/celtic-summer-signing-hearts/",
+    "buffer": "post 6ad4c426a48c8f83719ad50b due 2026-10-18T13:05:42.876Z"
   }
 }
