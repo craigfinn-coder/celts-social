@@ -1,9 +1,4 @@
 {
-  "celtic-star-transfer-valuation": {
-    "at": "2026-09-24T18:10:26+00:00",
-    "link": "https://celtsarehere.com/celtic-star-transfer-valuation/",
-    "buffer": "post 6ab56788ba1e0b42a63f48a6 due 2026-09-24T18:10:16.419Z"
-  },
   "oneill-celtic-future-latest": {
     "at": "2026-09-24T18:35:05+00:00",
     "link": "https://celtsarehere.com/oneill-celtic-future-latest/",
@@ -1998,5 +1993,10 @@
     "at": "2026-10-18T16:07:17+00:00",
     "link": "https://celtsarehere.com/celtic-park-trolls-hearts/",
     "buffer": "post 6ad4eeab0a208cb32371b27e due 2026-10-18T16:07:07.267Z"
+  },
+  "hearts-arrival-celtic-park": {
+    "at": "2026-10-18T16:27:11+00:00",
+    "link": "https://celtsarehere.com/hearts-arrival-celtic-park/",
+    "buffer": "post 6ad4f355a48c8f8371a68805 due 2026-10-18T16:27:01.162Z"
   }
 }
