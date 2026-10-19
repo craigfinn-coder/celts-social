@@ -1,9 +1,4 @@
 {
-  "celtic-star-answers-critics": {
-    "at": "2026-09-27T10:23:28+00:00",
-    "link": "https://celtsarehere.com/celtic-star-answers-critics/",
-    "buffer": "post 6ab8ee9670ec211d1d1354f6 due 2026-09-27T10:23:18.478Z"
-  },
   "duran-celtic-colombia-delay": {
     "at": "2026-09-27T10:39:37+00:00",
     "link": "https://celtsarehere.com/duran-celtic-colombia-delay/",
@@ -1998,5 +1993,10 @@
     "at": "2026-10-19T17:29:50+00:00",
     "link": "https://celtsarehere.com/michael-stewart-celtic-meltdown/",
     "buffer": "post 6ad65384dc9c9ebcd55d8f68 due 2026-10-19T17:29:40.819Z"
+  },
+  "mcgowan-murray-rangers": {
+    "at": "2026-10-19T18:13:21+00:00",
+    "link": "https://celtsarehere.com/mcgowan-murray-rangers/",
+    "buffer": "post 6ad65db779591d5804b802fa due 2026-10-19T18:13:11.264Z"
   }
 }
