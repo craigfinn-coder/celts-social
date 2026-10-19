@@ -1,9 +1,4 @@
 {
-  "duran-celtic-colombia-delay": {
-    "at": "2026-09-27T10:39:37+00:00",
-    "link": "https://celtsarehere.com/duran-celtic-colombia-delay/",
-    "buffer": "post 6ab8f25f54f1e60c7e673ab3 due 2026-09-27T10:39:27.071Z"
-  },
   "saracchi-struggles-celtic-exit": {
     "at": "2026-09-27T10:52:17+00:00",
     "link": "https://celtsarehere.com/saracchi-struggles-celtic-exit/",
@@ -1998,5 +1993,10 @@
     "at": "2026-10-19T18:13:21+00:00",
     "link": "https://celtsarehere.com/mcgowan-murray-rangers/",
     "buffer": "post 6ad65db779591d5804b802fa due 2026-10-19T18:13:11.264Z"
+  },
+  "celtic-dressing-room-meeting-hearts": {
+    "at": "2026-10-19T18:37:18+00:00",
+    "link": "https://celtsarehere.com/celtic-dressing-room-meeting-hearts/",
+    "buffer": "post 6ad663544e78a3578525d99c due 2026-10-19T18:37:08.059Z"
   }
 }
