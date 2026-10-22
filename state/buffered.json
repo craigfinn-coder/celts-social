@@ -1,9 +1,4 @@
 {
-  "baur-klopp-germany-history": {
-    "at": "2026-10-02T06:16:40+00:00",
-    "link": "https://celtsarehere.com/baur-klopp-germany-history/",
-    "buffer": "post 6abf4c4022215530c71767d5 due 2026-10-02T06:16:32.606Z"
-  },
   "dembele-celtic-griffiths": {
     "at": "2026-10-02T07:11:00+00:00",
     "link": "https://celtsarehere.com/dembele-celtic-griffiths/",
@@ -1998,5 +1993,10 @@
     "at": "2026-10-22T21:19:40+00:00",
     "link": "https://celtsarehere.com/oneill-celtic-europe-league-admission/",
     "buffer": "post 6ada7de3128ac937cfd0b53b due 2026-10-22T21:19:31.835Z"
+  },
+  "oneill-very-obvious-celtic": {
+    "at": "2026-10-22T21:26:11+00:00",
+    "link": "https://celtsarehere.com/oneill-very-obvious-celtic/",
+    "buffer": "post 6ada7f6a128ac937cfd10a8c due 2026-10-22T21:26:02.659Z"
   }
 }
