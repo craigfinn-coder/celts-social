@@ -1,9 +1,4 @@
 {
-  "sutton-boyd-celtic-seville-claim": {
-    "at": "2026-10-01T20:24:27+00:00",
-    "link": "https://celtsarehere.com/sutton-boyd-celtic-seville-claim/",
-    "buffer": "post 6abec17163de9e09a27b6c88 due 2026-10-01T20:24:18.004Z"
-  },
   "celtic-baur-germany-debut-klopp": {
     "at": "2026-10-01T20:52:48+00:00",
     "link": "https://celtsarehere.com/celtic-baur-germany-debut-klopp/",
@@ -1998,5 +1993,10 @@
     "at": "2026-10-22T17:48:29+00:00",
     "link": "https://celtsarehere.com/celtic-starting-xi-celta-vigo/",
     "buffer": "post 6ada4c63b2fbfbb7e9887dfe due 2026-10-22T17:48:19.329Z"
+  },
+  "oneill-johnstone-celtic-celta-vigo": {
+    "at": "2026-10-22T18:36:08+00:00",
+    "link": "https://celtsarehere.com/oneill-johnstone-celtic-celta-vigo/",
+    "buffer": "post 6ada578dca69a1b7d3d0385d due 2026-10-22T18:35:57.899Z"
   }
 }
