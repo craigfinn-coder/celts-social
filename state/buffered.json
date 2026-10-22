@@ -1,9 +1,4 @@
 {
-  "celtic-europa-league-ticket-announcement": {
-    "at": "2026-10-02T09:41:30+00:00",
-    "link": "https://celtsarehere.com/celtic-europa-league-ticket-announcement/",
-    "buffer": "post 6abf7c401b2a6a8e15580648 due 2026-10-02T09:41:20.818Z"
-  },
   "celtic-dembele-treble-wins": {
     "at": "2026-10-02T10:24:48+00:00",
     "link": "https://celtsarehere.com/celtic-dembele-treble-wins/",
@@ -1998,5 +1993,10 @@
     "at": "2026-10-22T22:02:44+00:00",
     "link": "https://celtsarehere.com/oneill-celtic-supporter-frustration-response/",
     "buffer": "post 6ada87fa9daa1647876b3ee9 due 2026-10-22T22:02:34.372Z"
+  },
+  "oneill-celtic-transfer-response": {
+    "at": "2026-10-22T22:14:03+00:00",
+    "link": "https://celtsarehere.com/oneill-celtic-transfer-response/",
+    "buffer": "post 6ada8aa19daa1647876c0166 due 2026-10-22T22:13:53.715Z"
   }
 }
