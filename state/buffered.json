@@ -1,9 +1,4 @@
 {
-  "celtic-star-completes-surprise-loan-exit": {
-    "at": "2026-10-01T19:08:03+00:00",
-    "link": "https://celtsarehere.com/celtic-star-completes-surprise-loan-exit/",
-    "buffer": "post 6abeaf8a46d3dfca001e949c due 2026-10-01T19:07:54.769Z"
-  },
   "celtic-teenager-first-team-talk": {
     "at": "2026-10-01T19:44:28+00:00",
     "link": "https://celtsarehere.com/celtic-teenager-first-team-talk/",
@@ -1998,5 +1993,10 @@
     "at": "2026-10-22T16:07:29+00:00",
     "link": "https://celtsarehere.com/celtic-transfer-claim-addressed/",
     "buffer": "post 6ada34b7a6a09108d2752be7 due 2026-10-22T16:07:19.559Z"
+  },
+  "oneill-celtic-dugout": {
+    "at": "2026-10-22T17:16:03+00:00",
+    "link": "https://celtsarehere.com/oneill-celtic-dugout/",
+    "buffer": "post 6ada44c9ad1fc1b5527a3afd due 2026-10-22T17:15:53.415Z"
   }
 }
