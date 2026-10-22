@@ -1,9 +1,4 @@
 {
-  "dembele-celtic-griffiths": {
-    "at": "2026-10-02T07:11:00+00:00",
-    "link": "https://celtsarehere.com/dembele-celtic-griffiths/",
-    "buffer": "post 6abf58fa63de9e09a29167bb due 2026-10-02T07:10:50.252Z"
-  },
   "scales-ireland-austria": {
     "at": "2026-10-02T07:50:00+00:00",
     "link": "https://celtsarehere.com/scales-ireland-austria/",
@@ -1998,5 +1993,10 @@
     "at": "2026-10-22T21:26:11+00:00",
     "link": "https://celtsarehere.com/oneill-very-obvious-celtic/",
     "buffer": "post 6ada7f6a128ac937cfd10a8c due 2026-10-22T21:26:02.659Z"
+  },
+  "baur-alarming-celtic-answer": {
+    "at": "2026-10-22T21:39:02+00:00",
+    "link": "https://celtsarehere.com/baur-alarming-celtic-answer/",
+    "buffer": "post 6ada826d9c5989803a9a1638 due 2026-10-22T21:38:53.331Z"
   }
 }
