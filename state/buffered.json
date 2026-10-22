@@ -1,9 +1,4 @@
 {
-  "scales-ireland-austria": {
-    "at": "2026-10-02T07:50:00+00:00",
-    "link": "https://celtsarehere.com/scales-ireland-austria/",
-    "buffer": "post 6abf621dc07bdc2fc2701dfa due 2026-10-02T07:49:49.893Z"
-  },
   "klopp-baur-scottish-premiership": {
     "at": "2026-10-02T08:25:50+00:00",
     "link": "https://celtsarehere.com/klopp-baur-scottish-premiership/",
@@ -1998,5 +1993,10 @@
     "at": "2026-10-22T21:39:02+00:00",
     "link": "https://celtsarehere.com/baur-alarming-celtic-answer/",
     "buffer": "post 6ada826d9c5989803a9a1638 due 2026-10-22T21:38:53.331Z"
+  },
+  "osmand-celtic-injury-latest": {
+    "at": "2026-10-22T21:49:53+00:00",
+    "link": "https://celtsarehere.com/osmand-celtic-injury-latest/",
+    "buffer": "post 6ada84f99daa1647876a84d1 due 2026-10-22T21:49:45.312Z"
   }
 }
