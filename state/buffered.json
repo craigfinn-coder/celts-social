@@ -1,9 +1,4 @@
 {
-  "klopp-baur-scottish-premiership": {
-    "at": "2026-10-02T08:25:50+00:00",
-    "link": "https://celtsarehere.com/klopp-baur-scottish-premiership/",
-    "buffer": "post 6abf6a84d4210a2275d08f15 due 2026-10-02T08:25:40.556Z"
-  },
   "celtic-europa-league-ticket-announcement": {
     "at": "2026-10-02T09:41:30+00:00",
     "link": "https://celtsarehere.com/celtic-europa-league-ticket-announcement/",
@@ -1998,5 +1993,10 @@
     "at": "2026-10-22T21:49:53+00:00",
     "link": "https://celtsarehere.com/osmand-celtic-injury-latest/",
     "buffer": "post 6ada84f99daa1647876a84d1 due 2026-10-22T21:49:45.312Z"
+  },
+  "oneill-celtic-supporter-frustration-response": {
+    "at": "2026-10-22T22:02:44+00:00",
+    "link": "https://celtsarehere.com/oneill-celtic-supporter-frustration-response/",
+    "buffer": "post 6ada87fa9daa1647876b3ee9 due 2026-10-22T22:02:34.372Z"
   }
 }
