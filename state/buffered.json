@@ -1,9 +1,4 @@
 {
-  "celtic-takeover-claim": {
-    "at": "2026-10-06T12:25:30+00:00",
-    "link": "https://celtsarehere.com/celtic-takeover-claim/",
-    "buffer": "post 6ac4e8b19b831b0caf378a49 due 2026-10-06T12:25:21.120Z"
-  },
   "yang-asian-games-controversy": {
     "at": "2026-10-06T12:49:14+00:00",
     "link": "https://celtsarehere.com/yang-asian-games-controversy/",
@@ -1998,5 +1993,10 @@
     "at": "2026-10-26T07:55:43+00:00",
     "link": "https://celtsarehere.com/how-kieran-tierney-has-absolutely-silenced-his-celtic-doubters-this-week/",
     "buffer": "post 6adf07758f75aa9852103299 due 2026-10-26T07:55:33.477Z"
+  },
+  "hibs-vs-celtic-highlights-duran-goal": {
+    "at": "2026-10-26T08:13:43+00:00",
+    "link": "https://celtsarehere.com/hibs-vs-celtic-highlights-duran-goal/",
+    "buffer": "post 6adf0bad4664ad1208c266c8 due 2026-10-26T08:13:33.487Z"
   }
 }
