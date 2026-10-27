@@ -1,9 +1,4 @@
 {
-  "celtic-signings-loovens": {
-    "at": "2026-10-08T07:04:05+00:00",
-    "link": "https://celtsarehere.com/celtic-signings-loovens/",
-    "buffer": "post 6ac7405bc9ee621485c3ee24 due 2026-10-08T07:03:55.464Z"
-  },
   "celtic-falkirk-friendly-test": {
     "at": "2026-10-08T07:36:26+00:00",
     "link": "https://celtsarehere.com/celtic-falkirk-friendly-test/",
@@ -1998,5 +1993,10 @@
     "at": "2026-10-27T14:45:40+00:00",
     "link": "https://celtsarehere.com/donovan-tierney-celtic-message/",
     "buffer": "post 6ae0b90c01a7b9ebe43d23fd due 2026-10-27T14:45:32.580Z"
+  },
+  "yang-celtic-injury-latest-2": {
+    "at": "2026-10-27T15:29:58+00:00",
+    "link": "https://celtsarehere.com/yang-celtic-injury-latest-2/",
+    "buffer": "post 6ae0c36e0574aed3d268e858 due 2026-10-27T15:29:50.213Z"
   }
 }
