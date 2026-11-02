@@ -1,9 +1,4 @@
 {
-  "mulgrew-ferguson-celtic-win": {
-    "at": "2026-10-13T13:01:41+00:00",
-    "link": "https://celtsarehere.com/mulgrew-ferguson-celtic-win/",
-    "buffer": "post 6ace2bab42d44c06a0692c95 due 2026-10-13T13:01:31.392Z"
-  },
   "celtic-green-brigade-donation": {
     "at": "2026-10-13T13:31:42+00:00",
     "link": "https://celtsarehere.com/celtic-green-brigade-donation/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-02T13:40:38+00:00",
     "link": "https://celtsarehere.com/dermot-desmond-celtic-agm-collective/",
     "buffer": "post 6ae892cdc5c4672c3e7894a7 due 2026-11-02T13:40:29.731Z"
+  },
+  "doumbia-celtic-transfer-latest": {
+    "at": "2026-11-02T15:14:26+00:00",
+    "link": "https://celtsarehere.com/doumbia-celtic-transfer-latest/",
+    "buffer": "post 6ae8a8caa8c7e34921568062 due 2026-11-02T15:14:18.315Z"
   }
 }
