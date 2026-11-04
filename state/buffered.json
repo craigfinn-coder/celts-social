@@ -1,9 +1,4 @@
 {
-  "henrik-larsson-podcast-open-goal": {
-    "at": "2026-10-15T11:33:57+00:00",
-    "link": "https://celtsarehere.com/henrik-larsson-podcast-open-goal/",
-    "buffer": "post 6ad0ba1da5eef0dc228179ea due 2026-10-15T11:33:49.908Z"
-  },
   "oneill-celtic-change-benfica": {
     "at": "2026-10-15T13:48:07+00:00",
     "link": "https://celtsarehere.com/oneill-celtic-change-benfica/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-04T22:03:18+00:00",
     "link": "https://celtsarehere.com/celtic-besiktas-tickets-update/",
     "buffer": "post 6aebab9ce33a6d353dc63088 due 2026-11-04T22:03:08.341Z"
+  },
+  "vaclav-cerny-water-bottle-besiktas": {
+    "at": "2026-11-04T22:33:19+00:00",
+    "link": "https://celtsarehere.com/vaclav-cerny-water-bottle-besiktas/",
+    "buffer": "post 6aebb2a6305ef6dbaeb22676 due 2026-11-04T22:33:10.610Z"
   }
 }
