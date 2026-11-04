@@ -1,9 +1,4 @@
 {
-  "duran-celtic-benfica-europa-league": {
-    "at": "2026-10-15T06:22:38+00:00",
-    "link": "https://celtsarehere.com/duran-celtic-benfica-europa-league/",
-    "buffer": "post 6ad071250ad4869c077e2212 due 2026-10-15T06:22:29.593Z"
-  },
   "celtic-sinisalo-johnstone-lineup": {
     "at": "2026-10-15T06:58:31+00:00",
     "link": "https://celtsarehere.com/celtic-sinisalo-johnstone-lineup/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-04T17:07:14+00:00",
     "link": "https://celtsarehere.com/ynag-celtic-injury-update-kilmarnock/",
     "buffer": "post 6aeb6638491f63648cea53b9 due 2026-11-04T17:07:04.584Z"
+  },
+  "celtics-europa-league-math": {
+    "at": "2026-11-04T18:07:13+00:00",
+    "link": "https://celtsarehere.com/celtics-europa-league-math/",
+    "buffer": "post 6aeb7448a6d053c9c5321ca1 due 2026-11-04T18:07:04.449Z"
   }
 }
