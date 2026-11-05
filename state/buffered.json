@@ -1,9 +1,4 @@
 {
-  "oneill-celtic-benfica-message": {
-    "at": "2026-10-16T06:26:10+00:00",
-    "link": "https://celtsarehere.com/oneill-celtic-benfica-message/",
-    "buffer": "post 6ad1c378e991a49db3cf39ab due 2026-10-16T06:26:00.756Z"
-  },
   "sutton-celtic-benfica-verdict": {
     "at": "2026-10-16T06:55:05+00:00",
     "link": "https://celtsarehere.com/sutton-celtic-benfica-verdict/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-05T16:44:08+00:00",
     "link": "https://celtsarehere.com/celtic-agm-date-changes-proposed/",
     "buffer": "post 6aecb24e517659178a22e647 due 2026-11-05T16:43:58.435Z"
+  },
+  "celtic-borrowing-director-rules": {
+    "at": "2026-11-05T17:21:42+00:00",
+    "link": "https://celtsarehere.com/celtic-borrowing-director-rules/",
+    "buffer": "post 6aecbb1ceb7f28c390f55835 due 2026-11-05T17:21:32.535Z"
   }
 }
