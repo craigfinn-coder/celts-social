@@ -1,9 +1,4 @@
 {
-  "jota-benfica-message": {
-    "at": "2026-10-15T14:14:59+00:00",
-    "link": "https://celtsarehere.com/jota-benfica-message/",
-    "buffer": "post 6ad0dfd9109a34529aa1af38 due 2026-10-15T14:14:50.000Z"
-  },
   "celtic-rangers-transfer-gap": {
     "at": "2026-10-15T14:44:19+00:00",
     "link": "https://celtsarehere.com/celtic-rangers-transfer-gap/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-04T23:09:55+00:00",
     "link": "https://celtsarehere.com/thats-not-on-martin-oneill-hits-back-over-poor-comments/",
     "buffer": "post 6aebbb39571331155354735b due 2026-11-04T23:09:45.175Z"
+  },
+  "celtic-v-besiktas-tv-channel-team-news": {
+    "at": "2026-11-05T06:33:30+00:00",
+    "link": "https://celtsarehere.com/celtic-v-besiktas-tv-channel-team-news/",
+    "buffer": "post 6aec23313ddb81d2210c3d5a due 2026-11-05T06:33:21.162Z"
   }
 }
