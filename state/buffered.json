@@ -1,9 +1,4 @@
 {
-  "oneill-emotional-celtic-moment": {
-    "at": "2026-10-15T15:35:53+00:00",
-    "link": "https://celtsarehere.com/oneill-emotional-celtic-moment/",
-    "buffer": "post 6ad0f2d143886cbb075060e2 due 2026-10-15T15:35:45.665Z"
-  },
   "jota-celtic-boost": {
     "at": "2026-10-15T16:08:34+00:00",
     "link": "https://celtsarehere.com/jota-celtic-boost/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-05T08:11:48+00:00",
     "link": "https://celtsarehere.com/oneill-celtic-meeting-masked-group/",
     "buffer": "post 6aec3a3a75052a1eb82fb37c due 2026-11-05T08:11:38.978Z"
+  },
+  "oneill-celtic-van-den-berg": {
+    "at": "2026-11-05T08:35:41+00:00",
+    "link": "https://celtsarehere.com/oneill-celtic-van-den-berg/",
+    "buffer": "post 6aec3fd380f7fd053704c935 due 2026-11-05T08:35:31.560Z"
   }
 }
