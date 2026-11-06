@@ -41,7 +41,7 @@ API = "https://api.buffer.com"
 CHANNEL = os.environ.get("BUFFER_CHANNEL_ID") or "6aadba11ea19ca0bde7f8ac0"
 MODE = (os.environ.get("BUFFER_MODE") or "addToQueue").strip()
 PAGES_BASE = (os.environ.get("PAGES_BASE")
-              or "https://craigfinn-coder.github.io/celts-social/cards").rstrip("/")
+              or "https://raw.githubusercontent.com/craigfinn-coder/celts-social/gh-pages/cards").rstrip("/")
 COMMENT_PREFIX = os.environ.get("BUFFER_COMMENT_PREFIX", "Full story: ")
 
 MUTATION = """
