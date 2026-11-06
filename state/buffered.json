@@ -1,9 +1,4 @@
 {
-  "celtic-injury-concern": {
-    "at": "2026-10-16T12:47:45+00:00",
-    "link": "https://celtsarehere.com/celtic-injury-concern/",
-    "buffer": "post 6ad21ce925d13dd62ee7f23d due 2026-10-16T12:47:37.684Z"
-  },
   "celtic-dressing-room-reaction-benfica": {
     "at": "2026-10-16T13:06:41+00:00",
     "link": "https://celtsarehere.com/celtic-dressing-room-reaction-benfica/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-06T08:29:31+00:00",
     "link": "https://celtsarehere.com/trossard-besiktas-celtic/",
     "buffer": "post 6aed8fe007f945cca94f7578 due 2026-11-06T08:29:20.862Z"
+  },
+  "celtic-uefa-europa-league-win": {
+    "at": "2026-11-06T08:54:57+00:00",
+    "link": "https://celtsarehere.com/celtic-uefa-europa-league-win/",
+    "buffer": "post 6aed95d9f3498efda77f94ab due 2026-11-06T08:54:49.673Z"
   }
 }
