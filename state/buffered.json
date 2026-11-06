@@ -1,9 +1,4 @@
 {
-  "everton-insider-david-moyes-celtic": {
-    "at": "2026-10-16T12:15:40+00:00",
-    "link": "https://celtsarehere.com/everton-insider-david-moyes-celtic/",
-    "buffer": "post 6ad2156325d13dd62ee5f110 due 2026-10-16T12:15:31.653Z"
-  },
   "neil-lennon-fury-celtic": {
     "at": "2026-10-16T12:41:59+00:00",
     "link": "https://celtsarehere.com/neil-lennon-fury-celtic/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-06T07:38:09+00:00",
     "link": "https://celtsarehere.com/celtic-board-rejects-calls-plan/",
     "buffer": "post 6aed83d7f3498efda7792413 due 2026-11-06T07:37:59.115Z"
+  },
+  "celtic-europa-league-win": {
+    "at": "2026-11-06T07:58:38+00:00",
+    "link": "https://celtsarehere.com/celtic-europa-league-win/",
+    "buffer": "post 6aed88a4c1e74b84e5d5a441 due 2026-11-06T07:58:28.797Z"
   }
 }
