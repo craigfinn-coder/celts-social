@@ -1,9 +1,4 @@
 {
-  "neil-lennon-fury-celtic": {
-    "at": "2026-10-16T12:41:59+00:00",
-    "link": "https://celtsarehere.com/neil-lennon-fury-celtic/",
-    "buffer": "post 6ad21b8e25d13dd62ee79693 due 2026-10-16T12:41:50.077Z"
-  },
   "celtic-injury-concern": {
     "at": "2026-10-16T12:47:45+00:00",
     "link": "https://celtsarehere.com/celtic-injury-concern/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-06T07:58:38+00:00",
     "link": "https://celtsarehere.com/celtic-europa-league-win/",
     "buffer": "post 6aed88a4c1e74b84e5d5a441 due 2026-11-06T07:58:28.797Z"
+  },
+  "trossard-besiktas-celtic": {
+    "at": "2026-11-06T08:29:31+00:00",
+    "link": "https://celtsarehere.com/trossard-besiktas-celtic/",
+    "buffer": "post 6aed8fe007f945cca94f7578 due 2026-11-06T08:29:20.862Z"
   }
 }
