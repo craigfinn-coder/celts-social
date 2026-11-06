@@ -1,9 +1,4 @@
 {
-  "eddie-howe-celtic-claim": {
-    "at": "2026-10-16T11:18:15+00:00",
-    "link": "https://celtsarehere.com/eddie-howe-celtic-claim/",
-    "buffer": "post 6ad207ef1ffe47098028b60a due 2026-10-16T11:18:07.804Z"
-  },
   "celtic-fan-protest-benfica": {
     "at": "2026-10-16T11:30:02+00:00",
     "link": "https://celtsarehere.com/celtic-fan-protest-benfica/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-05T22:56:10+00:00",
     "link": "https://celtsarehere.com/oneill-answer-celtic-critics/",
     "buffer": "post 6aed0980265cb90551e12f73 due 2026-11-05T22:56:00.420Z"
+  },
+  "celtic-refuse-apology-desmond-speech": {
+    "at": "2026-11-06T07:03:44+00:00",
+    "link": "https://celtsarehere.com/celtic-refuse-apology-desmond-speech/",
+    "buffer": "post 6aed7bc97b7e47e8f4133d81 due 2026-11-06T07:03:37.617Z"
   }
 }
