@@ -1,9 +1,4 @@
 {
-  "celtic-legend-oneill-sos-call": {
-    "at": "2026-10-16T14:08:29+00:00",
-    "link": "https://celtsarehere.com/celtic-legend-oneill-sos-call/",
-    "buffer": "post 6ad22fd3f24c5797a242b6bd due 2026-10-16T14:08:19.998Z"
-  },
   "celtic-benfica-pundit-meltdown": {
     "at": "2026-10-16T14:25:32+00:00",
     "link": "https://celtsarehere.com/celtic-benfica-pundit-meltdown/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-06T12:05:58+00:00",
     "link": "https://celtsarehere.com/oneill-celtic-europa-league-win/",
     "buffer": "post 6aedc29c0b0f6e64a0b9503e due 2026-11-06T12:05:48.047Z"
+  },
+  "celtic-january-targets": {
+    "at": "2026-11-06T12:12:12+00:00",
+    "link": "https://celtsarehere.com/celtic-january-targets/",
+    "buffer": "post 6aedc412e45c1855cb389c17 due 2026-11-06T12:12:02.752Z"
   }
 }
