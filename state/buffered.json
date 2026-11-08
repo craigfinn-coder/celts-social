@@ -1,9 +1,4 @@
 {
-  "celtic-duo-injured-celta": {
-    "at": "2026-10-18T16:58:33+00:00",
-    "link": "https://celtsarehere.com/celtic-duo-injured-celta/",
-    "buffer": "post 6ad4faaf0b0d72757a2fa4cd due 2026-10-18T16:58:23.238Z"
-  },
   "oneill-celtic-celta-vigo-warning": {
     "at": "2026-10-18T17:20:41+00:00",
     "link": "https://celtsarehere.com/oneill-celtic-celta-vigo-warning/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-08T20:31:07+00:00",
     "link": "https://celtsarehere.com/oneill-hassan-celtic-explanation/",
     "buffer": "post 6af0dc03004e4879a7dca846 due 2026-11-08T20:30:59.912Z"
+  },
+  "oneill-baur-celtic-latest": {
+    "at": "2026-11-08T21:02:30+00:00",
+    "link": "https://celtsarehere.com/oneill-baur-celtic-latest/",
+    "buffer": "post 6af0e35e004e4879a7dede36 due 2026-11-08T21:02:23.014Z"
   }
 }
