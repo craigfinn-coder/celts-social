@@ -1,9 +1,4 @@
 {
-  "hearts-arrival-celtic-park": {
-    "at": "2026-10-18T16:27:11+00:00",
-    "link": "https://celtsarehere.com/hearts-arrival-celtic-park/",
-    "buffer": "post 6ad4f355a48c8f8371a68805 due 2026-10-18T16:27:01.162Z"
-  },
   "jota-emotional-celtic-park": {
     "at": "2026-10-18T16:36:39+00:00",
     "link": "https://celtsarehere.com/jota-emotional-celtic-park/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-08T15:28:41+00:00",
     "link": "https://celtsarehere.com/oneill-jota-pre-match-admission/",
     "buffer": "post 6af095209214322f68600aac due 2026-11-08T15:28:32.462Z"
+  },
+  "baur-celtic-injury-latest-2": {
+    "at": "2026-11-08T18:25:05+00:00",
+    "link": "https://celtsarehere.com/baur-celtic-injury-latest-2/",
+    "buffer": "post 6af0be77d6bbae6fa10496fd due 2026-11-08T18:24:55.536Z"
   }
 }
