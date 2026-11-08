@@ -1,9 +1,4 @@
 {
-  "oneill-celtic-celta-vigo-warning": {
-    "at": "2026-10-18T17:20:41+00:00",
-    "link": "https://celtsarehere.com/oneill-celtic-celta-vigo-warning/",
-    "buffer": "post 6ad4ffdfa48c8f8371a94526 due 2026-10-18T17:20:31.167Z"
-  },
   "oneill-celtic-park-apology": {
     "at": "2026-10-18T17:30:59+00:00",
     "link": "https://celtsarehere.com/oneill-celtic-park-apology/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-08T21:02:30+00:00",
     "link": "https://celtsarehere.com/oneill-baur-celtic-latest/",
     "buffer": "post 6af0e35e004e4879a7dede36 due 2026-11-08T21:02:23.014Z"
+  },
+  "celtic-four-point-lead": {
+    "at": "2026-11-08T21:22:17+00:00",
+    "link": "https://celtsarehere.com/celtic-four-point-lead/",
+    "buffer": "post 6af0e7ff229bf05dafd6ceec due 2026-11-08T21:22:07.984Z"
   }
 }
