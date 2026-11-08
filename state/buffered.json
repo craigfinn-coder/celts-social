@@ -1,9 +1,4 @@
 {
-  "oneill-celtic-park-apology": {
-    "at": "2026-10-18T17:30:59+00:00",
-    "link": "https://celtsarehere.com/oneill-celtic-park-apology/",
-    "buffer": "post 6ad502490b0d72757a316b2d due 2026-10-18T17:30:49.392Z"
-  },
   "oneill-celtic-crisis-comment": {
     "at": "2026-10-18T17:58:59+00:00",
     "link": "https://celtsarehere.com/oneill-celtic-crisis-comment/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-08T21:22:17+00:00",
     "link": "https://celtsarehere.com/celtic-four-point-lead/",
     "buffer": "post 6af0e7ff229bf05dafd6ceec due 2026-11-08T21:22:07.984Z"
+  },
+  "jota-substitution-explained": {
+    "at": "2026-11-08T22:02:28+00:00",
+    "link": "https://celtsarehere.com/jota-substitution-explained/",
+    "buffer": "post 6af0f16c51492b796e643429 due 2026-11-08T22:02:20.262Z"
   }
 }
