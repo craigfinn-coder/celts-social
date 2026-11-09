@@ -1,9 +1,4 @@
 {
-  "footage-emerges-of-reported-brawl-outside-celtic-park-before": {
-    "at": "2026-10-19T09:22:07+00:00",
-    "link": "https://celtsarehere.com/footage-emerges-of-reported-brawl-outside-celtic-park-before-hearts-clash/",
-    "buffer": "post 6ad5e13ed7d35ac00a0f0129 due 2026-10-19T09:22:06.251Z"
-  },
   "spanish-press-single-out-celtic-star-ahead-of-celta-vigos-pa": {
     "at": "2026-10-19T10:13:45+00:00",
     "link": "https://celtsarehere.com/spanish-press-single-out-celtic-star-ahead-of-celta-vigos-parkhead-trip/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-09T14:15:06+00:00",
     "link": "https://celtsarehere.com/mcgregor-celtic-future-claim/",
     "buffer": "post 6af1d56116e7ebcf361fe84d due 2026-11-09T14:14:57.455Z"
+  },
+  "celtic-star-international-withdrawal": {
+    "at": "2026-11-09T15:18:15+00:00",
+    "link": "https://celtsarehere.com/celtic-star-international-withdrawal/",
+    "buffer": "post 6af1e42f07b8501775fbdf5b due 2026-11-09T15:18:07.947Z"
   }
 }
