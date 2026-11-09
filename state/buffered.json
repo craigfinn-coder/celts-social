@@ -1,9 +1,4 @@
 {
-  "jota-message-celtic-supporters": {
-    "at": "2026-10-19T16:53:36+00:00",
-    "link": "https://celtsarehere.com/jota-message-celtic-supporters/",
-    "buffer": "post 6ad64b056cd7d3af6311a5f0 due 2026-10-19T16:53:25.956Z"
-  },
   "michael-stewart-celtic-meltdown": {
     "at": "2026-10-19T17:29:50+00:00",
     "link": "https://celtsarehere.com/michael-stewart-celtic-meltdown/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-09T21:26:28+00:00",
     "link": "https://celtsarehere.com/celtic-propose-re-election-rules/",
     "buffer": "post 6af23a7a985bb441e7e38be3 due 2026-11-09T21:26:18.199Z"
+  },
+  "celtic-fans-asking-question": {
+    "at": "2026-11-09T21:58:45+00:00",
+    "link": "https://celtsarehere.com/celtic-fans-asking-question/",
+    "buffer": "post 6af2420b2720157e373429b0 due 2026-11-09T21:58:35.317Z"
   }
 }
