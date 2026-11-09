@@ -1,9 +1,4 @@
 {
-  "bbc-presenter-calls-out-hearts-celtic-park-songbook": {
-    "at": "2026-10-19T09:13:24+00:00",
-    "link": "https://celtsarehere.com/bbc-presenter-calls-out-hearts-celtic-park-songbook/",
-    "buffer": "post 6ad5df2aea5ddfc300f5db4b due 2026-10-19T09:13:14.573Z"
-  },
   "footage-emerges-of-reported-brawl-outside-celtic-park-before": {
     "at": "2026-10-19T09:22:07+00:00",
     "link": "https://celtsarehere.com/footage-emerges-of-reported-brawl-outside-celtic-park-before-hearts-clash/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-09T12:53:12+00:00",
     "link": "https://celtsarehere.com/celtic-unique-angle-scales-frustration/",
     "buffer": "post 6af1c23055ccb8ee465c55b7 due 2026-11-09T12:53:04.086Z"
+  },
+  "mcgregor-celtic-future-claim": {
+    "at": "2026-11-09T14:15:06+00:00",
+    "link": "https://celtsarehere.com/mcgregor-celtic-future-claim/",
+    "buffer": "post 6af1d56116e7ebcf361fe84d due 2026-11-09T14:14:57.455Z"
   }
 }
