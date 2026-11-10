@@ -50,4 +50,13 @@ test_only = {"t": {"at": (NOW - dt.timedelta(minutes=5)).isoformat(), "mode": "t
 assert pm.gate(test_only, NOW) is None
 assert pm.gate({}, NOW) is None
 
+# X version: two-post thread, card on the first, link in the reply
+xi = pm.bp.build_x_input("Headline", "https://celtsarehere.com/a/",
+                         "https://example.com/a.jpg", "abc", "shareNow")
+th = xi["metadata"]["twitter"]["thread"]
+assert xi["channelId"] == "abc" and "facebook" not in xi["metadata"]
+assert len(th) == 2 and th[0]["text"] == xi["text"] == "Headline"
+assert th[0]["assets"] == xi["assets"] and "assets" not in th[1]
+assert th[1]["text"].endswith("https://celtsarehere.com/a/")
+
 print("promote rules OK")

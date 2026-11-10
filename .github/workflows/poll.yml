@@ -208,7 +208,7 @@ jobs:
           exit 1
 
   # Hourly from WordPress: repost the best-performing recent story to the
-  # second Facebook page (80k). Rules live in src/promote.py; tune them with
+  # second Facebook page (80k) and the spare X account. Rules live in src/promote.py; tune them with
   # repo variables (PROMOTE_MODE, PROMOTE_MIN_VIEWS, PROMOTE_MAX_PER_DAY...).
   promote:
     if: ${{ github.event.action == 'promote-check' }}
@@ -237,6 +237,8 @@ jobs:
           PROMOTE_MAX_PER_DAY: ${{ vars.PROMOTE_MAX_PER_DAY }}
           PROMOTE_GAP_MIN: ${{ vars.PROMOTE_GAP_MIN }}
           PROMOTE_QUIET: ${{ vars.PROMOTE_QUIET }}
+          # Spare X account (@celtsarehere). Set the variable to "off" to stop.
+          PROMOTE_X_CHANNEL_ID: ${{ vars.PROMOTE_X_CHANNEL_ID }}
         run: python src/promote.py
 
       - name: Remember what went to the 80k page

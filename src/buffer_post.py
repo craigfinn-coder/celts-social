@@ -127,6 +127,18 @@ def build_input(headline: str, link: str, image_url: str,
     return inp
 
 
+def build_x_input(headline: str, link: str, image_url: str,
+                  channel: str, mode: str | None = None) -> dict:
+    """X version: the card + headline as the post, the link as a reply
+    underneath (a two-post thread - X has no 'first comment' field)."""
+    inp = build_input(headline, link, image_url, channel=channel, mode=mode)
+    inp["metadata"] = {"twitter": {"thread": [
+        {"text": headline, "assets": inp["assets"]},
+        {"text": f"{COMMENT_PREFIX}{link}"},
+    ]}}
+    return inp
+
+
 def create_post_with_retries(key: str, inp: dict) -> tuple[bool, str]:
     msg = ""
     for n, wait in enumerate(RETRY_WAITS, 1):

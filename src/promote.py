@@ -14,6 +14,9 @@ Guard rails (all overridable with env / repo variables):
   PROMOTE_MIN_AGE_MIN  story must be at least this old           (default 45)
   PROMOTE_MAX_AGE_MIN  ...and no older than this                 (default 300)
   PROMOTE_QUIET        UK hours with no posting, "23-7"          (default 23-7)
+  PROMOTE_X_CHANNEL_ID Buffer channel of the spare X account (@celtsarehere);
+                       every winner also goes there, link in a reply.
+                       "off" = Facebook only.
 
 Only stories already sent to the main page (state/buffered.json) qualify, and
 each story is promoted once at most (state/promoted.json).
@@ -51,6 +54,8 @@ def env_int(name: str, default: int) -> int:
 
 
 CHANNEL = os.environ.get("PROMOTE_CHANNEL_ID") or "67b9ce543b85969eafc88ecd"
+X_CHANNEL = (os.environ.get("PROMOTE_X_CHANNEL_ID")
+             or "6af38e7762b70b94b0e976e8").strip()
 MODE = (os.environ.get("PROMOTE_MODE") or "shareNow").strip()
 MIN_VIEWS = env_int("PROMOTE_MIN_VIEWS", 500)
 MAX_PER_DAY = env_int("PROMOTE_MAX_PER_DAY", 6)
@@ -220,14 +225,26 @@ def main() -> int:
         print(f"::error::promote: Buffer rejected '{headline}': {msg}")
         return 1
     print(f"  sent to the 80k page ({mode}): {msg}")
+
+    # Same winner to the spare X account: card + headline, link in a reply.
+    x_ok, x_msg = True, "off"
+    if X_CHANNEL.lower() != "off":
+        x_ok, x_msg = bp.create_post_with_retries(
+            key, bp.build_x_input(headline, link, image, X_CHANNEL, mode))
+        if x_ok:
+            print(f"  sent to X ({mode}): {x_msg}")
+        else:
+            print(f"::error::promote: X rejected '{headline}': {x_msg}")
+
     if mode == "test":
         print("  test post: scheduled 7 days ahead - delete it in Buffer")
-        return 0
+        return 0 if x_ok else 1
     promoted[best["slug"]] = {
         "at": now.isoformat(timespec="seconds"), "views": best["views"],
-        "link": link, "mode": mode, "buffer": msg}
+        "link": link, "mode": mode, "buffer": msg, "x": x_msg}
     save_promoted(promoted)
-    return 0
+    # Facebook went out and is recorded; a red run flags the missed X post.
+    return 0 if x_ok else 1
 
 
 if __name__ == "__main__":
