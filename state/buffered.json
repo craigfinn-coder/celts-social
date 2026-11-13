@@ -1,9 +1,4 @@
 {
-  "celtic-insider-celta-vigo": {
-    "at": "2026-10-21T19:29:35+00:00",
-    "link": "https://celtsarehere.com/celtic-insider-celta-vigo/",
-    "buffer": "post 6ad9129710f3165f4b7381f3 due 2026-10-21T19:29:27.782Z"
-  },
   "osmand-celtic-mentor": {
     "at": "2026-10-21T19:53:08+00:00",
     "link": "https://celtsarehere.com/osmand-celtic-mentor/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-13T08:06:28+00:00",
     "link": "https://celtsarehere.com/celtic-duo-scotland-ukraine/",
     "buffer": "post 6af6c4fbe1d8eff610ad56bd due 2026-11-13T08:06:19.883Z"
+  },
+  "celtic-hassan-egypt-news": {
+    "at": "2026-11-13T08:59:50+00:00",
+    "link": "https://celtsarehere.com/celtic-hassan-egypt-news/",
+    "buffer": "post 6af6d17dd8381a679efebd3f due 2026-11-13T08:59:41.950Z"
   }
 }
