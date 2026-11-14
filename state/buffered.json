@@ -1,9 +1,4 @@
 {
-  "celtic-transfer-claim-addressed": {
-    "at": "2026-10-22T16:07:29+00:00",
-    "link": "https://celtsarehere.com/celtic-transfer-claim-addressed/",
-    "buffer": "post 6ada34b7a6a09108d2752be7 due 2026-10-22T16:07:19.559Z"
-  },
   "oneill-celtic-dugout": {
     "at": "2026-10-22T17:16:03+00:00",
     "link": "https://celtsarehere.com/oneill-celtic-dugout/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-14T10:54:36+00:00",
     "link": "https://celtsarehere.com/camilo-duran-injury-update/",
     "buffer": "post 6af83de2d8bd2962e4238c1c due 2026-11-14T10:54:26.411Z"
+  },
+  "sweden-boss-gives-benjamin-nygren-fitness-verdict": {
+    "at": "2026-11-14T12:04:27+00:00",
+    "link": "https://celtsarehere.com/sweden-boss-gives-benjamin-nygren-fitness-verdict/",
+    "buffer": "post 6af84e4378196a0a975fe0aa due 2026-11-14T12:04:19.334Z"
   }
 }
