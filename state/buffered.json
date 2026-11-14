@@ -1,9 +1,4 @@
 {
-  "oneill-celtic-europe-league-admission": {
-    "at": "2026-10-22T21:19:40+00:00",
-    "link": "https://celtsarehere.com/oneill-celtic-europe-league-admission/",
-    "buffer": "post 6ada7de3128ac937cfd0b53b due 2026-10-22T21:19:31.835Z"
-  },
   "oneill-very-obvious-celtic": {
     "at": "2026-10-22T21:26:11+00:00",
     "link": "https://celtsarehere.com/oneill-very-obvious-celtic/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-14T14:13:12+00:00",
     "link": "https://celtsarehere.com/ebonog-celtic-latest/",
     "buffer": "post 6af86c6fb9a106584c4c9dbf due 2026-11-14T14:13:03.073Z"
+  },
+  "celtic-outcast-international": {
+    "at": "2026-11-14T15:16:43+00:00",
+    "link": "https://celtsarehere.com/celtic-outcast-international/",
+    "buffer": "post 6af87b51e86a5789a6b4e35b due 2026-11-14T15:16:33.695Z"
   }
 }
