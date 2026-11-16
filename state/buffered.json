@@ -1,9 +1,4 @@
 {
-  "scales-trusty-celtic-tribute": {
-    "at": "2026-10-23T15:16:56+00:00",
-    "link": "https://celtsarehere.com/scales-trusty-celtic-tribute/",
-    "buffer": "post 6adb7a5e6fe59a6ed27f5b5e due 2026-10-23T15:16:46.195Z"
-  },
   "scales-celtic-signing-verdict": {
     "at": "2026-10-23T15:31:54+00:00",
     "link": "https://celtsarehere.com/scales-celtic-signing-verdict/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-15T22:32:31+00:00",
     "link": "https://celtsarehere.com/ange-postecoglou-faces-saudi-media-warning-despite-six-straight-wins/",
     "buffer": "post 6afa32f7ff465c57dab7edf9 due 2026-11-15T22:32:23.584Z"
+  },
+  "unusual-celtic-ticket-update-ahead-of-st-mirren": {
+    "at": "2026-11-16T06:46:31+00:00",
+    "link": "https://celtsarehere.com/unusual-celtic-ticket-update-ahead-of-st-mirren/",
+    "buffer": "post 6afaa6bf8e87c256a3ba4e7b due 2026-11-16T06:46:23.691Z"
   }
 }
