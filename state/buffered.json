@@ -1,9 +1,4 @@
 {
-  "journo-rodgers-celtic-exit-claim": {
-    "at": "2026-10-26T18:50:01+00:00",
-    "link": "https://celtsarehere.com/journo-rodgers-celtic-exit-claim/",
-    "buffer": "post 6adfa0cf188ed7b87269e605 due 2026-10-26T18:49:51.395Z"
-  },
   "celtic-fan-hearts-rangers": {
     "at": "2026-10-26T19:47:35+00:00",
     "link": "https://celtsarehere.com/celtic-fan-hearts-rangers/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-18T18:22:04+00:00",
     "link": "https://celtsarehere.com/mcstay-shock-approach/",
     "buffer": "post 6afdecc416b41ab07a6ede15 due 2026-11-18T18:21:56.618Z"
+  },
+  "celtic-target-january-price": {
+    "at": "2026-11-18T19:16:40+00:00",
+    "link": "https://celtsarehere.com/celtic-target-january-price/",
+    "buffer": "post 6afdf98e0f7628381fec0a3b due 2026-11-18T19:16:30.597Z"
   }
 }
