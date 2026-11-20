@@ -1,9 +1,4 @@
 {
-  "celtic-falkirk-referee-appointment": {
-    "at": "2026-10-28T16:04:48+00:00",
-    "link": "https://celtsarehere.com/celtic-falkirk-referee-appointment/",
-    "buffer": "post 6ae21d151d398031838e864c due 2026-10-28T16:04:37.988Z"
-  },
   "iheanacho-failed-celtic-talks": {
     "at": "2026-10-28T16:37:20+00:00",
     "link": "https://celtsarehere.com/iheanacho-failed-celtic-talks/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-20T12:21:38+00:00",
     "link": "https://celtsarehere.com/celtic-baur-nygren-doubts/",
     "buffer": "post 6b003b495d9549971ca33971 due 2026-11-20T12:21:29.894Z"
+  },
+  "celtic-troll-rangers-christmas-advert": {
+    "at": "2026-11-20T13:04:14+00:00",
+    "link": "https://celtsarehere.com/celtic-troll-rangers-christmas-advert/",
+    "buffer": "post 6b004545fc5b97f0f8085fc8 due 2026-11-20T13:04:05.938Z"
   }
 }
