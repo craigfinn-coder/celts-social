@@ -1,9 +1,4 @@
 {
-  "mcgowan-celtic-agm-concern": {
-    "at": "2026-10-29T15:41:20+00:00",
-    "link": "https://celtsarehere.com/mcgowan-celtic-agm-concern/",
-    "buffer": "post 6ae36915c073f399d5f0752d due 2026-10-29T15:41:09.992Z"
-  },
   "celtic-broadcasting-revolution": {
     "at": "2026-10-29T16:13:52+00:00",
     "link": "https://celtsarehere.com/celtic-broadcasting-revolution/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-21T09:22:50+00:00",
     "link": "https://celtsarehere.com/celtic-christmas-film-1908-mistake/",
     "buffer": "post 6b0162e09ffbc8503c12a1a6 due 2026-11-21T09:22:40.475Z"
+  },
+  "celtic-st-mirren-not-on-tv": {
+    "at": "2026-11-21T09:29:27+00:00",
+    "link": "https://celtsarehere.com/celtic-st-mirren-not-on-tv/",
+    "buffer": "post 6b01646ddd205ed779d41cbb due 2026-11-21T09:29:17.464Z"
   }
 }
