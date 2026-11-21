@@ -1,9 +1,4 @@
 {
-  "mika-baur-sprint-celtic-problem": {
-    "at": "2026-10-29T10:29:06+00:00",
-    "link": "https://celtsarehere.com/mika-baur-sprint-celtic-problem/",
-    "buffer": "post 6ae31fe81db2603c2d97ed23 due 2026-10-29T10:28:56.616Z"
-  },
   "sebastian-tounekti-taxi-rumour": {
     "at": "2026-10-29T10:45:01+00:00",
     "link": "https://celtsarehere.com/sebastian-tounekti-taxi-rumour/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-21T08:17:16+00:00",
     "link": "https://celtsarehere.com/oneill-celtic-baur-van-den-berg/",
     "buffer": "post 6b0153825e993799d861993a due 2026-11-21T08:17:06.777Z"
+  },
+  "sam-johnstone-celtic-future": {
+    "at": "2026-11-21T08:43:40+00:00",
+    "link": "https://celtsarehere.com/sam-johnstone-celtic-future/",
+    "buffer": "post 6b0159b251027662450b1f18 due 2026-11-21T08:43:30.223Z"
   }
 }
