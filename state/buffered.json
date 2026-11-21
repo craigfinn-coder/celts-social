@@ -1,9 +1,4 @@
 {
-  "celtic-sfa-appeal-statement": {
-    "at": "2026-10-29T18:16:29+00:00",
-    "link": "https://celtsarehere.com/celtic-sfa-appeal-statement/",
-    "buffer": "post 6ae38d73145e9f24d45db8ca due 2026-10-29T18:16:19.203Z"
-  },
   "mcgregor-oneill-celtic-tactics": {
     "at": "2026-10-29T18:41:13+00:00",
     "link": "https://celtsarehere.com/mcgregor-oneill-celtic-tactics/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-21T13:02:35+00:00",
     "link": "https://celtsarehere.com/celtic-teenager-oneilll-goals/",
     "buffer": "post 6b019660846b0ee9070b731f due 2026-11-21T13:02:25.125Z"
+  },
+  "oneill-celtic-decision": {
+    "at": "2026-11-21T13:25:14+00:00",
+    "link": "https://celtsarehere.com/oneill-celtic-decision/",
+    "buffer": "post 6b019bb1846b0ee9070def34 due 2026-11-21T13:25:05.431Z"
   }
 }
