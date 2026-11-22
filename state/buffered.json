@@ -1,9 +1,4 @@
 {
-  "tounekti-celtic-latest": {
-    "at": "2026-10-30T12:03:06+00:00",
-    "link": "https://celtsarehere.com/tounekti-celtic-latest/",
-    "buffer": "post 6ae4876f80f61ee51916a25a due 2026-10-30T12:02:55.989Z"
-  },
   "trusty-celtic-return-latest": {
     "at": "2026-10-30T12:10:34+00:00",
     "link": "https://celtsarehere.com/trusty-celtic-return-latest/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-22T10:32:35+00:00",
     "link": "https://celtsarehere.com/celtic-fc-st-mirren-highlights/",
     "buffer": "post 6b02c4bbc72676f5e91e9c9a due 2026-11-22T10:32:27.085Z"
+  },
+  "so-strong-oneill-raves-about-celtic-winger": {
+    "at": "2026-11-22T11:02:30+00:00",
+    "link": "https://celtsarehere.com/so-strong-oneill-raves-about-celtic-winger/",
+    "buffer": "post 6b02cbbcd864a01105b84c8f due 2026-11-22T11:02:20.219Z"
   }
 }
