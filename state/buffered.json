@@ -1,9 +1,4 @@
 {
-  "hassan-holding-back-celtic": {
-    "at": "2026-11-01T11:12:42+00:00",
-    "link": "https://celtsarehere.com/hassan-holding-back-celtic/",
-    "buffer": "post 6ae71ea01ee172cd6df24f1d due 2026-11-01T11:12:32.572Z"
-  },
   "celtic-starting-xi-falkirk": {
     "at": "2026-11-01T11:49:23+00:00",
     "link": "https://celtsarehere.com/celtic-starting-xi-falkirk/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-23T20:25:19+00:00",
     "link": "https://celtsarehere.com/green-brigade-incredible-announcement/",
     "buffer": "post 6b04a1255678330d31d79760 due 2026-11-23T20:25:09.233Z"
+  },
+  "celtic-talks-matchday-shake-up": {
+    "at": "2026-11-23T21:02:46+00:00",
+    "link": "https://celtsarehere.com/celtic-talks-matchday-shake-up/",
+    "buffer": "post 6b04a9eb58d65b8ef8ca83db due 2026-11-23T21:02:36.113Z"
   }
 }
