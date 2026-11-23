@@ -1,9 +1,4 @@
 {
-  "falkirk-vs-celtic-tv-channel-team-news-and-referee": {
-    "at": "2026-11-01T08:06:19+00:00",
-    "link": "https://celtsarehere.com/falkirk-vs-celtic-tv-channel-team-news-and-referee/",
-    "buffer": "post 6ae6f2f2cf3a3112f3e79745 due 2026-11-01T08:06:10.249Z"
-  },
   "celtic-fixture-chaos-rangers-hampden": {
     "at": "2026-11-01T10:45:08+00:00",
     "link": "https://celtsarehere.com/celtic-fixture-chaos-rangers-hampden/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-23T17:45:27+00:00",
     "link": "https://celtsarehere.com/mcgowan-celtic-signing-exit/",
     "buffer": "post 6b047badff0a846b7fad9f0f due 2026-11-23T17:45:17.575Z"
+  },
+  "celtic-sfa-disagreement-latest": {
+    "at": "2026-11-23T19:31:38+00:00",
+    "link": "https://celtsarehere.com/celtic-sfa-disagreement-latest/",
+    "buffer": "post 6b04949083d02a16338b57cd due 2026-11-23T19:31:28.770Z"
   }
 }
