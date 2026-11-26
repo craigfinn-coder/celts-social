@@ -1,9 +1,4 @@
 {
-  "celtic-reminder": {
-    "at": "2026-11-04T09:07:24+00:00",
-    "link": "https://celtsarehere.com/celtic-reminder/",
-    "buffer": "post 6aeaf5c39e12e98b30955e7d due 2026-11-04T09:07:15.509Z"
-  },
   "besiktas-star-celtic-park-fans": {
     "at": "2026-11-04T11:09:45+00:00",
     "link": "https://celtsarehere.com/besiktas-star-celtic-park-fans/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-26T16:14:01+00:00",
     "link": "https://celtsarehere.com/juarez-next-celtic-manager-bombshell/",
     "buffer": "post 6b085abf4e32cfdd2305a0b9 due 2026-11-26T16:13:51.676Z"
+  },
+  "celtic-supporters-group-transfer-statement": {
+    "at": "2026-11-26T16:34:27+00:00",
+    "link": "https://celtsarehere.com/celtic-supporters-group-transfer-statement/",
+    "buffer": "post 6b085f890fa46ab04fd62d33 due 2026-11-26T16:34:17.612Z"
   }
 }
