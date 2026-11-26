@@ -1,9 +1,4 @@
 {
-  "my-job-depends-on-results-oneill-responds-to-celtic-meeting": {
-    "at": "2026-11-04T17:06:41+00:00",
-    "link": "https://celtsarehere.com/my-job-depends-on-results-oneill-responds-to-celtic-meeting-question/",
-    "buffer": "post 6aeb6617491f63648cea4420 due 2026-11-04T17:06:31.534Z"
-  },
   "ynag-celtic-injury-update-kilmarnock": {
     "at": "2026-11-04T17:07:14+00:00",
     "link": "https://celtsarehere.com/ynag-celtic-injury-update-kilmarnock/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-26T19:27:17+00:00",
     "link": "https://celtsarehere.com/ex-celtic-shock-scenes/",
     "buffer": "post 6b08880bc81617797dd88bca due 2026-11-26T19:27:07.165Z"
+  },
+  "carter-vickers-injury-latest": {
+    "at": "2026-11-26T22:13:42+00:00",
+    "link": "https://celtsarehere.com/carter-vickers-injury-latest/",
+    "buffer": "post 6b08af0c82b7c4bc1655e9c4 due 2026-11-26T22:13:32.619Z"
   }
 }
