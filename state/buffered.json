@@ -1,9 +1,4 @@
 {
-  "celtic-agm-details": {
-    "at": "2026-11-05T07:39:31+00:00",
-    "link": "https://celtsarehere.com/celtic-agm-details/",
-    "buffer": "post 6aec32a875052a1eb82a2be2 due 2026-11-05T07:39:21.026Z"
-  },
   "oneill-celtic-meeting-masked-group": {
     "at": "2026-11-05T08:11:48+00:00",
     "link": "https://celtsarehere.com/oneill-celtic-meeting-masked-group/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-27T14:43:53+00:00",
     "link": "https://celtsarehere.com/green-brigade-friday-celtic-statement/",
     "buffer": "post 6b09971fbb117e5ba754119d due 2026-11-27T14:43:43.053Z"
+  },
+  "sky-sports-celtic-announcement": {
+    "at": "2026-11-27T15:12:11+00:00",
+    "link": "https://celtsarehere.com/sky-sports-celtic-announcement/",
+    "buffer": "post 6b099dc132c212878fde6538 due 2026-11-27T15:12:01.416Z"
   }
 }
