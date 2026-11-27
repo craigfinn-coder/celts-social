@@ -1,9 +1,4 @@
 {
-  "celtic-besiktas-tickets-update": {
-    "at": "2026-11-04T22:03:18+00:00",
-    "link": "https://celtsarehere.com/celtic-besiktas-tickets-update/",
-    "buffer": "post 6aebab9ce33a6d353dc63088 due 2026-11-04T22:03:08.341Z"
-  },
   "vaclav-cerny-water-bottle-besiktas": {
     "at": "2026-11-04T22:33:19+00:00",
     "link": "https://celtsarehere.com/vaclav-cerny-water-bottle-besiktas/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-27T09:34:47+00:00",
     "link": "https://celtsarehere.com/duran-celtic-europa-league-win/",
     "buffer": "post 6b094ead049983dcfba7fa8a due 2026-11-27T09:34:37.690Z"
+  },
+  "celtic-gavin-strachan-west-brom": {
+    "at": "2026-11-27T10:29:50+00:00",
+    "link": "https://celtsarehere.com/celtic-gavin-strachan-west-brom/",
+    "buffer": "post 6b095b94658222306c03bb00 due 2026-11-27T10:29:40.654Z"
   }
 }
