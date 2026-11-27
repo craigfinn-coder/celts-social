@@ -1,9 +1,4 @@
 {
-  "oneill-celtic-team-talk": {
-    "at": "2026-11-05T09:01:49+00:00",
-    "link": "https://celtsarehere.com/oneill-celtic-team-talk/",
-    "buffer": "post 6aec45f34a486827e734fe04 due 2026-11-05T09:01:39.583Z"
-  },
   "arne-engels-west-ham-goal": {
     "at": "2026-11-05T09:23:04+00:00",
     "link": "https://celtsarehere.com/arne-engels-west-ham-goal/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-27T16:02:32+00:00",
     "link": "https://celtsarehere.com/celtic-opponents-uefa-investigation/",
     "buffer": "post 6b09a98d34d224b14a98de5a due 2026-11-27T16:02:21.998Z"
+  },
+  "celtic-legend-friday-news": {
+    "at": "2026-11-27T16:32:34+00:00",
+    "link": "https://celtsarehere.com/celtic-legend-friday-news/",
+    "buffer": "post 6b09b098b83ec61257e305e9 due 2026-11-27T16:32:24.529Z"
   }
 }
