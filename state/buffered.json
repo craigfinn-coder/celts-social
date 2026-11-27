@@ -1,9 +1,4 @@
 {
-  "hatate-celtic-burnely-bonuses": {
-    "at": "2026-11-05T10:17:22+00:00",
-    "link": "https://celtsarehere.com/hatate-celtic-burnely-bonuses/",
-    "buffer": "post 6aec57a8d33a536cdc0b9dc4 due 2026-11-05T10:17:12.787Z"
-  },
   "scales-celtic-signings": {
     "at": "2026-11-05T10:56:41+00:00",
     "link": "https://celtsarehere.com/scales-celtic-signings/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-27T17:03:01+00:00",
     "link": "https://celtsarehere.com/departure-celtic-struggles/",
     "buffer": "post 6b09b7ba2b8a129ed81075b6 due 2026-11-27T17:02:51.000Z"
+  },
+  "celtic-friday-night-statement": {
+    "at": "2026-11-27T17:52:59+00:00",
+    "link": "https://celtsarehere.com/celtic-friday-night-statement/",
+    "buffer": "post 6b09c371f34d25de1e34f37e due 2026-11-27T17:52:49.457Z"
   }
 }
