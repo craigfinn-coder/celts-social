@@ -1,9 +1,4 @@
 {
-  "oneill-celtic-van-den-berg": {
-    "at": "2026-11-05T08:35:41+00:00",
-    "link": "https://celtsarehere.com/oneill-celtic-van-den-berg/",
-    "buffer": "post 6aec3fd380f7fd053704c935 due 2026-11-05T08:35:31.560Z"
-  },
   "oneill-celtic-team-talk": {
     "at": "2026-11-05T09:01:49+00:00",
     "link": "https://celtsarehere.com/oneill-celtic-team-talk/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-27T15:23:32+00:00",
     "link": "https://celtsarehere.com/jota-fitness-latest/",
     "buffer": "post 6b09a06a32c212878fdfa852 due 2026-11-27T15:23:22.378Z"
+  },
+  "celtic-opponents-uefa-investigation": {
+    "at": "2026-11-27T16:02:32+00:00",
+    "link": "https://celtsarehere.com/celtic-opponents-uefa-investigation/",
+    "buffer": "post 6b09a98d34d224b14a98de5a due 2026-11-27T16:02:21.998Z"
   }
 }
