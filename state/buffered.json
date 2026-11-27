@@ -1,9 +1,4 @@
 {
-  "scales-celtic-signings": {
-    "at": "2026-11-05T10:56:41+00:00",
-    "link": "https://celtsarehere.com/scales-celtic-signings/",
-    "buffer": "post 6aec60dfe08f8251dfa9065f due 2026-11-05T10:56:31.977Z"
-  },
   "mika-baur-germany-squad": {
     "at": "2026-11-05T11:54:50+00:00",
     "link": "https://celtsarehere.com/mika-baur-germany-squad/",
@@ -1998,5 +1993,10 @@
     "at": "2026-11-27T17:52:59+00:00",
     "link": "https://celtsarehere.com/celtic-friday-night-statement/",
     "buffer": "post 6b09c371f34d25de1e34f37e due 2026-11-27T17:52:49.457Z"
+  },
+  "duran-future-latest": {
+    "at": "2026-11-27T18:13:48+00:00",
+    "link": "https://celtsarehere.com/duran-future-latest/",
+    "buffer": "post 6b09c852c4601a3566a4d9c2 due 2026-11-27T18:13:38.548Z"
   }
 }
